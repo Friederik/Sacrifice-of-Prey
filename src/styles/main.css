@@ -1,0 +1,7 @@
+@import url(./base/reset.css);              /* Сброс стилей */
+@import url(./base/variables.css);          /* Переменные */
+@import url(./base/typography.css);         /* Шрифты */
+
+@import url(./pages/game.css);              /* Экран игры */
+
+@import url(./components/card.css);         /* Карты */

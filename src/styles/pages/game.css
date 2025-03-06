@@ -1,0 +1,122 @@
+.game {
+    width: 100%;
+    height: 100%;
+
+    background-color: antiquewhite;
+}
+
+.wrapper {
+    height: 100vh;
+    width: 100vw;
+    padding: var(--wrapper-padding);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.game-windows {
+    height: var(--windows-height);
+    display: flex;
+    justify-content: space-between;
+}
+
+.sides {
+    height: 100%;
+    width: var(--sides-width);
+    padding: var(--windows-padding);
+
+    background-color: brown;
+}
+
+.table {
+    height: 100%;
+    width: var(--table-width);
+    padding: var(--windows-padding);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    background-color: brown;
+}
+
+.event {
+    height: var(--event-height);
+    display: flex;
+    justify-content: space-between;
+}
+
+.event-name {
+    width: var(--event-name-width);
+
+    background-color: rgb(255, 139, 7);
+}
+
+.event-num {
+    width: var(--event-num-width);
+    height: inherit;
+    
+    background-color: rgb(255, 139, 7);
+}
+
+.played-out-cards {
+    height: var(--played-out-cards-height);
+    display: flex;
+    justify-content: space-between;
+    padding: var(--windows-padding);
+
+    background-color: rgb(255, 139, 7);
+}
+
+.place-for-card {
+    width: calc(var(--card-width)*0.7);
+    height: calc(var(--card-height)*0.7);
+
+    border: 2px solid red;
+    background-color: rgb(255, 85, 7);
+}
+
+.played-out-cards .card{
+    width: calc(var(--card-width)*0.7);
+    height: calc(var(--card-height)*0.7);
+}
+
+.player {
+    height: var(--player-height);
+    display: flex;
+    justify-content: space-between;
+}
+
+.menu {
+    width: var(--menu-width);
+
+    background-color: brown;
+}
+
+.hand {
+    width: var(--hand-width);
+    padding: var(--windows-padding);
+    display: flex;
+    justify-content: space-between;
+
+    background-color: brown;
+}
+
+.resources {
+    width: var(--resourses-width);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.resourse-item {
+    width: var(--resourses-width);
+    height: var(--resourses-width);
+
+    background-color: rgb(255, 139, 7);
+}
+
+.cards-in-hand {
+    width: var(--cards-in-hand-width);
+
+    background-color: rgb(255, 139, 7);
+}

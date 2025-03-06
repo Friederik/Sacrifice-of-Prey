@@ -1,0 +1,24 @@
+:root {
+    --wrapper-padding: 30px;
+    --windows-height: 620px;
+    --windows-padding: 20px;
+
+    --sides-width: 400px;
+    --table-width: 900px;
+
+    --event-height: 100px;
+    --event-name-width: 620px;
+    --event-num-width: 100px;
+
+    --played-out-cards-height: 220px;
+
+    --player-height: 290px;
+    --menu-width: 215px;
+    --hand-width: 1080px;
+
+    --resourses-width: 100px;
+    --cards-in-hand-width: 800px;
+
+    --card-width: 200px;
+    --card-height: 250px;  
+}
