@@ -2,15 +2,16 @@
     --wrapper-padding: 30px;
     --windows-height: 620px;
     --windows-padding: 20px;
+    --windows-width-gap: 80px;
 
-    --sides-width: 400px;
+    --sides-width: 200px;
     --table-width: 900px;
 
-    --event-height: 100px;
+    --event-height: 50px;
     --event-name-width: 620px;
     --event-num-width: 100px;
 
-    --played-out-cards-height: 220px;
+    --played-out-cards-height: 110px;
 
     --player-height: 290px;
     --menu-width: 215px;

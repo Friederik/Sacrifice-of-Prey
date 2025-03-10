@@ -1,0 +1,41 @@
+{
+    "cardsInfo": [
+        {
+            "name": "Dog",
+            "cover": "assets/test/Dog.jpg",
+            "attack": 2,
+            "health": 1,
+            "abilities": ["Predator"]
+        },
+        {
+            "name": "Rabbit",
+            "cover": "assets/test/Rabbit.jpg",
+            "attack": 1,
+            "health": 3,
+            "abilities": ["Pray"]
+        },
+        {
+            "name": "Dear",
+            "cover": "assets/test/Dear.jpg",
+            "attack": 2,
+            "health": 2,
+            "abilities": []
+        }
+    ],
+    "enemiesInfo": [
+        {
+            "name": "The Pied Piper",
+            "cover": "assets/test/The Pied Piper.jpg",
+            "attack": 1,
+            "health": 4,
+            "abilities": []
+        },
+        {
+            "name": "Hunter",
+            "cover": "assets/test/Hunter.jpg",
+            "attack": 2,
+            "health": 2,
+            "abilities": []
+        }
+    ]
+}
