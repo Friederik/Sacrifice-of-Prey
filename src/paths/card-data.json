@@ -20,6 +20,13 @@
             "attack": 2,
             "health": 2,
             "abilities": []
+        },
+        {
+            "name": "Wolf",
+            "cover": "assets/test/Wolf.jpg",
+            "attack": 4,
+            "health": 2,
+            "abilities": ["Predator"]
         }
     ],
     "enemiesInfo": [
@@ -28,14 +35,16 @@
             "cover": "assets/test/The Pied Piper.jpg",
             "attack": 1,
             "health": 4,
-            "abilities": []
+            "abilities": [],
+            "award": 1
         },
         {
             "name": "Hunter",
             "cover": "assets/test/Hunter.jpg",
             "attack": 2,
             "health": 2,
-            "abilities": []
+            "abilities": [],
+            "award": 1
         }
     ]
 }
