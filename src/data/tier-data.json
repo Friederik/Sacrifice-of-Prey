@@ -1,0 +1,38 @@
+{
+    "tierCard": [
+        {
+            "id": 1,
+            "cards": [
+                "Dog", 
+                "Rabbit",
+                "Dear"
+            ]
+        },
+        {
+            "id": 2,
+            "cards": [
+                "Dog", 
+                "Rabbit",
+                "Dear",
+                "Wolf"
+            ]
+        }
+    ],
+    "tierEnemy": [
+        {
+            "id": 1,
+            "enemies": [
+                "The Pied Piper", 
+                "Hunter"
+            ]
+        },
+        {
+            "id": 2,
+            "enemies": [
+                "The Pied Piper", 
+                "Hunter",
+                "Cultist"
+            ]
+        }
+    ]
+}

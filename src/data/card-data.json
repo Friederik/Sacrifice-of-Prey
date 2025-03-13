@@ -45,6 +45,14 @@
             "health": 2,
             "abilities": [],
             "award": 1
+        },
+        {
+            "name": "Cultist",
+            "cover": "assets/test/Cultist.jpg",
+            "attack": 2,
+            "health": 8,
+            "abilities": ["Coward"],
+            "award": 1
         }
     ]
 }

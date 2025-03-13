@@ -14,7 +14,7 @@ export default class Card {
      * @param {string} cover - Путь до портрета карты
      * @param {number} attack - Значение атаки карты
      * @param {number} health - Значение здоровья карты
-     * @param {Array} abilities - Набор способностей карты
+     * @param {Array<string>} abilities - Набор способностей карты
      */
     constructor(name, cover, attack, health, abilities) {
         this.#name = name
@@ -24,15 +24,17 @@ export default class Card {
         this.#abilities = abilities    
     }
 
-    /**
-     * Печатает характеристики карты
-     */
-    printCard() {
-        console.log(
-            this.#name, 
-            this.#cover, 
-            this.#attack, 
-            this.#health, 
-            this.#abilities)
+    get data() {
+        return Object.freeze({
+            name: this.#name,
+            cover: this.#cover,
+            attack: this.#attack,
+            health: this.#health,
+            abilities: this.#abilities
+        })
+    }
+
+    clone() {
+        return new Card(this.#name, this.#cover, this.#attack, this.#health, this.#abilities)
     }
 }

@@ -3,10 +3,10 @@ import Enemy from "../entities/enemy.js"
 
 /**
  * Загрузка коллекций карт
- * @returns {Object} Коллекции карт и протвников
+ * @returns {Object} Коллекции карт и противников
  */
 export async function preloadCardsInfo() {
-    let response = await fetch("src/paths/card-data.json")
+    let response = await fetch("src/data/card-data.json")
     if (response.ok) {
         let data = await response.json()
 
@@ -57,4 +57,12 @@ function createCollection(someCollection, nameOfCollection) {
         
     }
     return readyCollection
+}
+
+export async function preloadTierInfo() {
+    let response = await fetch("src/data/tier-data.json")
+    if (response.ok) {
+        let data = await response.json()
+        return data
+    }    
 }
