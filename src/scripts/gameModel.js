@@ -27,6 +27,15 @@ export default class GameModel {
      */
     #tier
     /**
+     * @private @type {number} Лимит карт в руке
+     */
+    #handLimit
+    /**
+     * @private @type {number} Количество добираемых карт в ход
+     */
+    #handDrawCount
+    
+    /**
      * @private @type {boolean} Первый ход
      */
     #isFirstTurn
@@ -43,10 +52,7 @@ export default class GameModel {
      * @private @type {Array<Card>} Рука игрока
      */
     #hand
-    /**
-     * @private @type {number} Лимит карт в руке
-     */
-    #handLimit
+
     /**
      * @private @type {Array<Card>} Поля для карт на стороне игрока
      */
@@ -78,6 +84,7 @@ export default class GameModel {
      * @param {number} score - Счет игрока
      * @param {number} difficult - Текущая сложность
      * @param {number} handLimit - Максимальное количество карт в руке
+     * @param {number} handDrawCount - Количество добираемых карт в ход
      * @param {number} tier - Текущий тир 
      * @param {boolean} isFirstTurn - Первый ход
      * @param {Array<Card>} deck - Колода карт игрока
@@ -87,17 +94,19 @@ export default class GameModel {
      * @param {Array<Card>} fieldPlayer - Поля для карт на стороне противника
      */
     constructor(data, selectedCards, playerHealth = 30, bones = 0, 
-                    score = 0, difficult = 1, handLimit = 5, tier = 1, 
+                    score = 0, difficult = 1, handLimit = 5, handDrawCount = 2, tier = 1, 
                     isFirstTurn = true, deck = [], discard = [], hand = [],
                     fieldPlayer = [null, null, null, null, null],
-                    fieldOpponent = [null, null, null, null, null] 
-                    ) {    
+                    fieldOpponent = [null, null, null, null, null]) {    
+
         this.#playerHealth = playerHealth
         this.#bones = bones
         this.#score = score
         this.#difficult = difficult
         this.#handLimit = handLimit
+        this.#handDrawCount = handDrawCount
         this.#tier = tier
+
         this.#isFirstTurn = isFirstTurn
 
         this.#deck = deck
@@ -109,16 +118,38 @@ export default class GameModel {
 
         this.#cardCollection = data[0]
         this.#tierCollection = data[1]
-        console.log('Загрузка завершена!', this.#cardCollection, this.#tierCollection)
 
         this.#startDeck = selectedCards
+        console.log('Загрузка завершена!', this.#cardCollection, this.#tierCollection)
     }
 
     /**
-     * Возвращает стол
+     * Важные характеристики игры
+     */
+    get data() {
+        return Object.freeze({
+            playerHealth: this.#playerHealth,
+            bones: this.#bones,
+            score: this.#score,
+            difficult: this.#difficult,
+            handLimit: this.#handLimit,
+            handDrawCount: this.#handDrawCount,
+            tier: this.#tier
+        })
+    }
+
+    /**
+     * Возращает колоды (0 - колода, 1 - сброс)
+     */
+    get decks() {
+        return Object.freeze([this.#deck, this.#discard])
+    }
+
+    /**
+     * Возвращает стол (0 - противник, 1 - игрок)
      */
     get table() {
-        return [this.#fieldOpponent, this.#fieldPlayer]
+        return Object.freeze([this.#fieldOpponent, this.#fieldPlayer])
     }
 
     /**
@@ -191,9 +222,25 @@ export default class GameModel {
      */
     placeCard(cardId, placeId) {
         if(this.#fieldPlayer[placeId] === null) {
-            this.#fieldPlayer[placeId] = this.#hand.splice(cardId, 1)
+            this.#fieldPlayer[placeId] = this.#hand.splice(cardId, 1)[0]
+        }
+        else {
+            console.log("Место для карты занято")
         }
         
+    }
+
+    /**
+     * Ставит противника на выбранное место
+     * @param {number} placeId - ID места для противника
+     * @param {string} enemyName - Имя противника, которого нужно разместить
+     */
+    placeEnemy(placeId, enemyName) {
+        if (this.#fieldOpponent[placeId] !== null && this.#fieldOpponent[placeId].constructor.name === "Enemy") {
+            console.log("Занято", placeId) 
+            return
+        }
+        this.#fieldOpponent[placeId] = this.#cardCollection["enemiesData"].get(enemyName).clone()
     }
 
     /**
@@ -213,38 +260,89 @@ export default class GameModel {
      */
     beginTurn() {
         if (this.#isFirstTurn) {
-            this.drawCard(3)
+            this.drawCard(this.#handDrawCount + 1)
             this.addThreat(2)
             this.#isFirstTurn = false
         }
         else {
             this.releaseThreats()
-            this.drawCard(2)
+            this.drawCard(this.#handDrawCount)
             this.addThreat(1)
         }
     }
 
     /**
      * Добавляет на пустые поля противника угрозы
-     * @param {number} count Количество новых угроз
+     * @param {number} count - Количество новых угроз
      */
     addThreat(count) {
-        let tableFull = 0
-        for (let place in this.#fieldOpponent) {
-            if (this.#fieldOpponent[place] !== null) {
-                tableFull += 1
-            }
-        }
-        if (tableFull === 5) {
+        if (this.checkTableFullness(this.#fieldOpponent, true)) {
+            console.log("Заполнена сторона для угроз")
             return
         }
         for(let i = 0; i < count; i++) {
-            let index = Math.floor(Math.random() * 5)
-            while(this.#fieldOpponent[index] !== null) {
-                index = (index + 1) % 5
+            let index = this.findEmptyPlace(this.#fieldOpponent, true)
+            if (index === -1) {
+                return
             }
             this.#fieldOpponent[index] = new Threat(this.#tier, this.#tierCollection["tierEnemy"])
         }
+    }
+
+    /**
+     * Проверка стола на заполненность.
+     * @param {Array} field - Поле для проверки
+     * @param {boolean} forThreats - Включать в счет угрозы
+     * @returns Заполнен/не заполнен
+     */
+    checkTableFullness(field, forThreats) {
+        if (forThreats) {
+            let tableFull = 0
+            for (let placeId in field) {
+                if (field[placeId] !== null) {
+                    if (field[placeId].constructor.name === "Threat" || field[placeId].constructor.name === "Enemy") {
+                        tableFull += 1
+                    }
+                }
+            }
+            return tableFull === 5
+        } else {
+            let tableFull = 0
+            for (let placeId in field) {
+                if (field[placeId] !== null) {
+                    if (field[placeId].constructor.name === "Enemy") {
+                        tableFull += 1
+                    }
+                }
+            }
+            return tableFull === 5
+        }
+    }
+
+    /**
+     * Поиск свободного места для выбранной стороны
+     * @param {Array} field - Сторона для поиска
+     * @returns - Индекс свободного места
+     */
+    findEmptyPlace(field, forThreats) {
+        if (this.checkTableFullness(field, forThreats)) {
+            return -1
+        }
+        let index = Math.floor(Math.random() * 5)
+        if (forThreats) {
+            while(field[index] !== null) {
+                index = (index + 1) % 5
+            }
+        }
+        else {
+            while(field[index] !== null) {
+                if (field[index].constructor.name === "Threat") {
+                    break
+                }
+                index = (index + 1) % 5
+            }
+        }
+        return index
     }
 
     /**
@@ -253,12 +351,43 @@ export default class GameModel {
     releaseThreats() {
         for(let i = 0; i < 5; i++) {
             if(this.#fieldOpponent[i] !== null && this.#fieldOpponent[i].constructor.name === "Threat") {
-                this.#fieldOpponent[i] = this.#cardCollection["enemiesData"].get(this.#fieldOpponent[i].enemyName).clone()
+                this.placeEnemy(i, this.#fieldOpponent[i].enemyName)
             }
         }
     }
 
+    doDiscard(field, cardId) {
+        field[cardId].restore()
+        this.#discard.push(field[cardId])
+        field[cardId] = null
+    }
+
+    killEnemy(enemyId) {
+        this.#fieldOpponent[enemyId] = null
+    }
+
     endTurn() {
-        
+        let oldTable = this.table
+        for (let i = 0; i < 5; i++) {
+            let tempEnemy = this.#fieldOpponent[i]
+            let tempCard = this.#fieldPlayer[i]
+
+            if (tempEnemy !== null) {
+                if (tempEnemy.constructor.name === "Enemy") {
+                    this.#fieldOpponent[i].takeDamage(tempCard.attack)
+                }
+                if (this.#fieldOpponent[i].health <= 0) {
+                    this.killEnemy(i)
+                }
+            }
+            if (tempCard !== null) {
+                this.#fieldPlayer[i].takeDamage(tempEnemy.attack)
+                if (this.#fieldPlayer[i].health <= 0) {
+                    this.doDiscard(this.#fieldPlayer, i)
+                }
+            }
+        }
+        let newTable = this.table
+        return Object.freeze([oldTable, newTable])
     }  
 }

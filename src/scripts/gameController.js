@@ -7,19 +7,25 @@ const tierInfo = await preloadTierInfo()
 
 const data = [cardsInfo, tierInfo]
 const selectedCards = {
-    "Dog": 2,
-    "Rabbit": 3,
-    "Dear": 4,
-    "Wolf": 1
+    "Dog": 0,
+    "Rabbit": 5,
+    "Dear": 0,
+    "Wolf": 0
 }
 
 const game = new GameModel(data, selectedCards)
 
 game.startNewGame()
 
+game.placeEnemy(2, "Hunter")
+game.placeEnemy(4, "Cultist")
+game.placeCard(0, 4)
+game.placeCard(0, 2)
 
-//console.table(game.hand)
-game.beginTurn()
+
+console.table(game.hand)
 console.table(game.table)
-game.beginTurn()
+
+game.endTurn()
+
 console.table(game.table)
