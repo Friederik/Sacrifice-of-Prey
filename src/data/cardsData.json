@@ -36,7 +36,7 @@
             "attack": 1,
             "health": 4,
             "abilities": [],
-            "award": 1
+            "reward": 1
         },
         {
             "name": "Hunter",
@@ -44,7 +44,7 @@
             "attack": 2,
             "health": 2,
             "abilities": [],
-            "award": 1
+            "reward": 1
         },
         {
             "name": "Cultist",
@@ -52,7 +52,7 @@
             "attack": 2,
             "health": 8,
             "abilities": ["Coward"],
-            "award": 1
+            "reward": 4
         }
     ]
 }
