@@ -26,6 +26,7 @@ export default class Deck {
     }
     addToDeck(cards) {
         for (let i = 0; i < cards.length; i++) {
+            cards[i].restore();
             this._cards.push(cards[i]);
         }
     }
@@ -34,9 +35,13 @@ export default class Deck {
             this._discard.push(cards[i]);
         }
     }
-    drawCards(count) {
+    drawCards(count, isFirstTurn) {
         let outCards = [];
         for (let i = 0; i < count; i++) {
+            if (isFirstTurn) {
+                i--;
+                isFirstTurn = false;
+            }
             if (this._cards.length > 0) {
                 outCards = outCards.concat(this._cards.splice(1, 0));
             }

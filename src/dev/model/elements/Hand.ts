@@ -11,7 +11,7 @@ export default class Hand {
 
     get cards(): readonly Card[] { return Object.freeze(this._cards)}
     get handLimit(): number { return this._handLimit }
-    card(cardId: number): Readonly<Card> { return Object.freeze(this._cards[cardId])}
+    card(cardId: number): Card { return this._cards[cardId] }
 
     addToHand(cards: Card[]): void {
         for (let i = 0; i < cards.length; i++) {

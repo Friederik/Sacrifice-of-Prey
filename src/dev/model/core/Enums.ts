@@ -27,3 +27,13 @@ export enum EffectType {
     /** При жертвовании */
     Sacrifice = "Sacrifice"
 }
+
+/**
+ * Перечисление сторон стола
+ */
+export enum BoardSide {
+    /** Сторона игрока */
+    Player = "Player",
+    /** Сторона противника */
+    Opponent = "Opponent"
+}

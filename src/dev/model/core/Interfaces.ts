@@ -1,4 +1,5 @@
-import { EffectType } from "./Enums"
+import Card from "../entities/Card.js"
+import { EffectType } from "./Enums.js"
 
 /**
  * Интерфейс, описывающий данные карты
@@ -42,4 +43,16 @@ export interface Effect {
     type: EffectType | string,
     /** Сущность эффекта */
     cast: (...args: any[]) => void
+}
+
+/**
+ * Интерфейс, описывающий информацию после боя
+ */
+export interface AfterFightInfo {
+    /** Набор карт для сброса */
+    discard: Card[],
+    /** Полученный игроком урон */
+    playerTakenDamage: number,
+    /** Полученный противником урон */
+    opponentTakenDamage: number
 }

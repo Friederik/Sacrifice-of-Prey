@@ -27,6 +27,8 @@ export default class BoardCell extends Cell {
      * @param card Новая карта
      */
     insertCard(card) {
+        if (this.checkCard())
+            return;
         if (card === null)
             return;
         this._card = card;

@@ -5,7 +5,7 @@ export default class Hand {
     }
     get cards() { return Object.freeze(this._cards); }
     get handLimit() { return this._handLimit; }
-    card(cardId) { return Object.freeze(this._cards[cardId]); }
+    card(cardId) { return this._cards[cardId]; }
     addToHand(cards) {
         for (let i = 0; i < cards.length; i++) {
             this._cards.push(cards[i]);

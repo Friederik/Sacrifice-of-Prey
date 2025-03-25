@@ -28,3 +28,13 @@ export var EffectType;
     /** При жертвовании */
     EffectType["Sacrifice"] = "Sacrifice";
 })(EffectType || (EffectType = {}));
+/**
+ * Перечисление сторон стола
+ */
+export var BoardSide;
+(function (BoardSide) {
+    /** Сторона игрока */
+    BoardSide["Player"] = "Player";
+    /** Сторона противника */
+    BoardSide["Opponent"] = "Opponent";
+})(BoardSide || (BoardSide = {}));

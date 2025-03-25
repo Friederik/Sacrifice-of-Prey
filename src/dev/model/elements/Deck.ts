@@ -36,6 +36,7 @@ export default class Deck {
 
     addToDeck(cards: Card[]): void {
         for (let i = 0; i < cards.length; i++) {
+            cards[i].restore()
             this._cards.push(cards[i])
         }
     }
@@ -46,9 +47,13 @@ export default class Deck {
         }
     }
 
-    drawCards(count: number): Card[] {
+    drawCards(count: number, isFirstTurn?: boolean): Card[] {
         let outCards: Card[] = []
         for (let i = 0; i < count; i++) {
+            if (isFirstTurn) {
+                i--
+                isFirstTurn = false
+            }
             if (this._cards.length > 0) {
                 outCards = outCards.concat(this._cards.splice(1, 0))
             }
