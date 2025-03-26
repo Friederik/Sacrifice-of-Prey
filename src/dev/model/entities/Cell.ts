@@ -25,7 +25,7 @@ export default class Cell extends JSONConvertible {
      */
     checkCard(): boolean {
         if (this._card !== null){
-            return this._card.constructor.name === "Card"
+            return this._card instanceof Card
         }
         return false
     }

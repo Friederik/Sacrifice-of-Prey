@@ -1,4 +1,5 @@
 import Cell from "./Cell.js";
+import Threat from "./Threat.js";
 /**
  * Класс ячейки карты для стола
  */
@@ -18,7 +19,7 @@ export default class BoardCell extends Cell {
      */
     checkThreat() {
         if (this._threat !== null) {
-            return this._threat.constructor.name === "Threat";
+            return this._threat instanceof Threat;
         }
         return false;
     }

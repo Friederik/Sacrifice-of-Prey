@@ -26,7 +26,7 @@ export default class BoardCell extends Cell {
      */
     checkThreat(): boolean {
         if (this._threat !== null){
-            return this._threat.constructor.name === "Threat"
+            return this._threat instanceof Threat
         }
         return false
     }

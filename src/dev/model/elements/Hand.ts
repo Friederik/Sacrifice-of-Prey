@@ -11,11 +11,15 @@ export default class Hand {
 
     get cards(): readonly Card[] { return Object.freeze(this._cards)}
     get handLimit(): number { return this._handLimit }
-    card(cardId: number): Card { return this._cards[cardId] }
 
-    addToHand(cards: Card[]): void {
-        for (let i = 0; i < cards.length; i++) {
-            this._cards.push(cards[i])
+    addToHand(cards: Card[] | Card): void {
+        if (cards instanceof Card) {
+            cards.restore()
+            this._cards.push(cards)
+        } else {
+            for (let i = 0; i < cards.length; i++) {
+                this._cards.push(cards[i])
+            }
         }
     }
 

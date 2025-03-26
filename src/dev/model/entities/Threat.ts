@@ -13,9 +13,7 @@ export default class Threat extends JSONConvertible {
      * @param card Новая Карта
      */
     constructor(card: Card | null | undefined) {
-        if (card === null || card === undefined) {
-            throw new Error("Карта должна существовать")
-        }
+        if (card === null || card === undefined) throw new Error("Карта должна существовать")
         super()
         this._card = card
     }

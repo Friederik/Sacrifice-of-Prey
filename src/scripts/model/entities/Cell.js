@@ -1,4 +1,5 @@
 import JSONConvertible from "../core/JSONConvertible.js";
+import Card from "./Card.js";
 /**
  * Класс ячейки карты
  */
@@ -18,7 +19,7 @@ export default class Cell extends JSONConvertible {
      */
     checkCard() {
         if (this._card !== null) {
-            return this._card.constructor.name === "Card";
+            return this._card instanceof Card;
         }
         return false;
     }
