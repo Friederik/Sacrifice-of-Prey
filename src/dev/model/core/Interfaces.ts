@@ -51,8 +51,14 @@ export interface Effect {
 export interface AfterFightInfo {
     /** Набор карт для сброса */
     discard: Card[],
+    /** Получено костей */
+    moneyReceived: number,
     /** Полученный игроком урон */
     playerTakenDamage: number,
     /** Полученный противником урон */
-    opponentTakenDamage: number
+    opponentTakenDamage: number,
+    /** Ячейки игрока получившие урон */
+    playerCellDamagePosition: number[],
+    /** Ячейки противника получившие урон */
+    opponentCellDamagePosition: number[]
 }
