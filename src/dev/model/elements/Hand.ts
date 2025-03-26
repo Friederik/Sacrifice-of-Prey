@@ -1,9 +1,15 @@
 import Card from "../entities/Card.js"
 
+/**
+ * Класс руки игрока
+ */
 export default class Hand {
+    /** Карты в руке */
     private _cards: Card[]
+    /** Максимальное количество карт в руке */
     private _handLimit: number
 
+    /** Создает сущность руки */
     constructor() {
         this._cards = []
         this._handLimit = 5
@@ -12,24 +18,49 @@ export default class Hand {
     get cards(): readonly Card[] { return Object.freeze(this._cards)}
     get handLimit(): number { return this._handLimit }
 
-    addToHand(cards: Card[] | Card): void {
+    /**
+     * Добавляет в руку карты,
+     * возвращает избыток для сброса
+     * @param cards Карты или массив карт
+     * @returns Карты для сброса
+     */
+    addToHand(cards: Card[] | Card): Card[] {
+        let discard: Card[] = []
         if (cards instanceof Card) {
-            cards.restore()
-            this._cards.push(cards)
+            if (this._cards.length < this.handLimit) {
+                cards.restore()
+                this._cards.push(cards)
+            } else {
+                discard.push(cards)
+            }
         } else {
             for (let i = 0; i < cards.length; i++) {
-                this._cards.push(cards[i])
+                if (this._cards.length < this.handLimit) {
+                    this._cards.push(cards[i])
+                } else {
+                    discard.push(cards[i])
+                }
             }
         }
+        return discard
     }
 
+    /**
+     * Вытаскиевает выбранную карту из руки
+     * @param cardId Номер карты
+     * @returns `Card` - если карта найдена, `null` - если такого номера нет, или рука пуста
+     */
     pullOutCard(cardId: number): Card | null {
-        if (this._cards.length > 0) return this._cards[cardId]
+        if (cardId > this._cards.length || cardId < 0) return null
+        if (this._cards.length > 0) return this._cards.splice(cardId, 1)[0]
         return null
     }
 
+    /**
+     * Увеличивает максимальное количество карт в руке на 1
+     */
     increaseHandLimit(): void {
-        if (this._handLimit > 15) return
+        if (this._handLimit >= 15) return
         this._handLimit++
     }
 }

@@ -97,6 +97,9 @@ export default class Deck {
         }
         return outCards;
     }
+    /**
+     * Увеличивает количество добираемых карт за ход на 1
+     */
     increaseDrawCount() {
         if (this._drawCount >= 10)
             return;
