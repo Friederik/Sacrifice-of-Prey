@@ -24,15 +24,24 @@ export default class ShopCell extends Cell {
     }
 
     get price(): number { return this._price }
-    get isLocked(): boolean { return this._isUnLocked }
+    get isUnLocked(): boolean { return this._isUnLocked }
 
     /**
-     * 
+     * Вытаскивает карту из ячейки
      * @returns Текущую карту `Card`, если карта находится в ячейка, иначе `null`
      */
     pullOutCard(): Card | null {
         if (this._isUnLocked) return super.pullOutCard()
         return null
+    }
+
+    /**
+     * Заменяет карту в ячейке новой
+     * @param card Новая карта
+     */
+    changeCard(card: Card): void {
+        super.pullOutCard()
+        this.insertCard(card)
     }
 
     /**
