@@ -24,8 +24,8 @@ export default class Board {
     get data(): readonly [readonly BoardCell[], readonly BoardCell[]] { 
         return [Object.freeze(this._sideOpponent), Object.freeze(this._sidePlayer)] 
     }
-    get sidePlayer(): BoardCell[] { return this._sidePlayer }
-    get sideOpponent(): BoardCell[] { return this._sideOpponent }
+    get sidePlayer(): readonly BoardCell[] { return Object.freeze(this._sidePlayer) }
+    get sideOpponent(): readonly BoardCell[] { return Object.freeze(this._sideOpponent) }
 
     /**
      * Размещение карты на пустую ячейку по выбранной стороне.
