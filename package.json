@@ -3,6 +3,6 @@
     "typescript": "^5.8.2"
   },
   "scripts": {
-    "comp": "npx tsc"
+    "git-add": "npx tsc && git add ."
   }
 }

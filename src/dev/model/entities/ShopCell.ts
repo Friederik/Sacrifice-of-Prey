@@ -20,7 +20,7 @@ export default class ShopCell extends Cell {
     constructor(card: Card, isUnLocked?: boolean) {
         super(card)
         this._price = card.price
-        this._isUnLocked = isUnLocked ?? true
+        this._isUnLocked = isUnLocked ?? false
     }
 
     get price(): number { return this._price }
@@ -31,8 +31,21 @@ export default class ShopCell extends Cell {
      * @returns Текущую карту `Card`, если карта находится в ячейка, иначе `null`
      */
     pullOutCard(): Card | null {
-        if (this._isUnLocked) return super.pullOutCard()
+        if (this._isUnLocked) {
+            this._price = 0
+            return super.pullOutCard()
+        } 
         return null
+    }
+
+    /**
+     * Вставляет в ячейку магазина новую карту и обновляет стоимость
+     * @param card Новая карта
+     */
+    insertCard(card: Card | null): void {
+        if (card === null || this.checkCard()) return
+        this._card = card
+        this._price = card.price
     }
 
     /**
