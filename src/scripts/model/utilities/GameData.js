@@ -1,7 +1,13 @@
-import { GameDifficult } from "../core/Enums.js";
+import { BoardSide } from "../core/Enums.js";
 import Card from "../entities/Card.js";
 // ToDo: Сделай загрузку асинхронной с файлов
+/**
+ * Класс предзагрузки данных
+ */
 export default class GameData {
+    /**
+     * Создает сущность данных, и выполняет их загрузку
+     */
     constructor() {
         this._effects = this.loadEffects();
         this._cards = this.loadCards();
@@ -13,24 +19,107 @@ export default class GameData {
     get cards() { return Object.freeze(this._cards); }
     get difficults() { return Object.freeze(this._difficults); }
     get config() { return Object.freeze(this._config); }
+    /**
+     * Возвращает эффект по названию
+     * @param effectName Название эффекта
+     * @returns Сущность эффекта
+     */
     getEffect(effectName) {
         let effect = this._effects.get(effectName);
         if (!effect)
             throw new Error("Такого эффекта нет");
         return effect;
     }
+    /**
+     * Возвращает карту по названию
+     * @param cardName Название карты
+     * @returns Сущность карты
+     */
     getCard(cardName) {
         let card = this._cards.get(cardName);
         if (!card)
             throw new Error("Такой карты нет");
         return card.clone();
     }
+    /**
+     * Возвращает уровень по его номеру
+     * @param difficultNumber Номер уровня
+     * @returns Сущность уровня
+     */
     getDifficult(difficultNumber) {
         let difficult = this._difficults.get(difficultNumber);
         if (!difficult)
             throw new Error("Такого уровня нет");
         return difficult;
     }
+    /**
+     * Возвращает стартовую колоду
+     * @returns Стартовая колода
+     */
+    getStartDeck() {
+        return [
+            this.getCard("Dog"),
+            this.getCard("Dog"),
+            this.getCard("Dog"),
+            this.getCard("Rabbit"),
+            this.getCard("Rabbit"),
+            this.getCard("Rabbit"),
+            this.getCard("Totem"),
+            this.getCard("Totem")
+        ];
+    }
+    /**
+     * Возвращает стартовый набор магазина
+     * @returns Стартовый набор магазина
+     */
+    getStartShop() {
+        return [
+            this.getCard("Rabbit"),
+            this.getCard("Dog"),
+            this.getCard("Bear"),
+            this.getCard("Dear")
+        ];
+    }
+    /**
+     * Генерирует случайную карту текущей сложности и выбранной стороны
+     * @param difficultNumber Номер сложности
+     * @param side Сторона
+     * @returns Сгенерированная карта
+     */
+    generateCard(difficultNumber, side) {
+        let difficult = this.getDifficult(difficultNumber);
+        let cards = [];
+        switch (side) {
+            case "Player":
+                cards = difficult.player;
+                break;
+            case "Opponent":
+                cards = difficult.enemies;
+                break;
+        }
+        let randomName = cards[Math.floor(Math.random() * cards.length)];
+        return this.getCard(randomName);
+    }
+    /**
+     * Генерирует набор для магазина
+     * @param difficultNumber Номер сложности
+     * @returns Набор для магазина
+     */
+    generateShopCards(difficultNumber) {
+        let generatedCards = [];
+        for (let i = 0; i < 2; i++) {
+            generatedCards.push(this.generateCard(difficultNumber, BoardSide.Player));
+        }
+        for (let i = 0; i < 2; i++) {
+            generatedCards.push(this.generateCard(difficultNumber + 1, BoardSide.Player));
+        }
+        return generatedCards;
+    }
+    /**
+     * Прогружает эффекты. ВАЖНО: Необходимо, чтобы количество,
+     * реализации, а также порядок эффектов совпадал
+     * @returns Данные эффектов
+     */
     loadEffects() {
         let newEffects = new Map();
         let someEffects = [
@@ -58,6 +147,10 @@ export default class GameData {
         console.log("Загрузка эффектов завершена...");
         return newEffects;
     }
+    /**
+     * Прогружает данные карт
+     * @returns Данные карт
+     */
     loadCards() {
         let newCards = new Map();
         if (this._effects.size <= 1)
@@ -160,6 +253,10 @@ export default class GameData {
         console.log("Загрузка карт завершена...");
         return newCards;
     }
+    /**
+     * Прогружает данные уровней
+     * @returns Данные уровней
+     */
     loadDifficults() {
         let newDifficults = new Map();
         let someDifficults = [
@@ -189,8 +286,9 @@ export default class GameData {
                 ]
             }
         ];
-        newDifficults.set(GameDifficult.Spring, someDifficults[0]);
-        newDifficults.set(GameDifficult.Summer, someDifficults[1]);
+        for (let i in someDifficults) {
+            newDifficults.set(Number(i) + 1, someDifficults[i]);
+        }
         console.log("Загрузка уровней завершена...");
         return newDifficults;
     }
