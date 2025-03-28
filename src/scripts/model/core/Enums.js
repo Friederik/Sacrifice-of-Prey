@@ -19,16 +19,6 @@ export var GameDifficult;
     GameDifficult[GameDifficult["EternalNight"] = 7] = "EternalNight";
 })(GameDifficult || (GameDifficult = {}));
 /**
- * Перечисление типов эффектов карт
- */
-export var EffectType;
-(function (EffectType) {
-    /** Во время хода */
-    EffectType["Turn"] = "Turn";
-    /** При жертвовании */
-    EffectType["Sacrifice"] = "Sacrifice";
-})(EffectType || (EffectType = {}));
-/**
  * Перечисление сторон стола
  */
 export var BoardSide;

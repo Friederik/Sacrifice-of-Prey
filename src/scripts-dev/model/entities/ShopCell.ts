@@ -44,7 +44,7 @@ export default class ShopCell extends Cell {
      */
     insertCard(card: Card | null): void {
         if (card === null || this.checkCard()) return
-        this._card = card
+        this._card = card.clone()
         this._price = card.price
     }
 

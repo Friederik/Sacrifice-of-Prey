@@ -38,7 +38,7 @@ export default class BoardCell extends Cell {
     insertCard(card: Card | null): void {
         if (this.checkCard()) return
         if (card === null) return
-        this._card = card
+        this._card = card.clone()
         this._threat = null
     }
 

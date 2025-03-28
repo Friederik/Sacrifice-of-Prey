@@ -11,7 +11,7 @@ export default class Threat extends JSONConvertible {
         if (card === null || card === undefined)
             throw new Error("Карта должна существовать");
         super();
-        this._card = card;
+        this._card = card.clone();
     }
     get card() { return this._card; }
 }

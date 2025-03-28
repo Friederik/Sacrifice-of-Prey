@@ -19,16 +19,6 @@ export enum GameDifficult {
 }
 
 /**
- * Перечисление типов эффектов карт
- */
-export enum EffectType {
-    /** Во время хода */
-    Turn = "Turn",
-    /** При жертвовании */
-    Sacrifice = "Sacrifice"
-}
-
-/**
  * Перечисление сторон стола
  */
 export enum BoardSide {

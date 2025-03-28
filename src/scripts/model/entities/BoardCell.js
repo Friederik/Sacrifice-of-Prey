@@ -32,7 +32,7 @@ export default class BoardCell extends Cell {
             return;
         if (card === null)
             return;
-        this._card = card;
+        this._card = card.clone();
         this._threat = null;
     }
     /**

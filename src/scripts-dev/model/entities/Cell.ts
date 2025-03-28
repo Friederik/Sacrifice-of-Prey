@@ -36,7 +36,7 @@ export default class Cell extends JSONConvertible {
      */
     insertCard(card: Card | null): void {
         if (card === null) return
-        this._card = card
+        this._card = card.clone()
     }
 
     /**
@@ -45,7 +45,7 @@ export default class Cell extends JSONConvertible {
      */
     pullOutCard(): Card | null {
         if (this._card === null) return null
-        let temp = this._card
+        let temp = this._card.clone()
         this._card = null
         return temp
     }
