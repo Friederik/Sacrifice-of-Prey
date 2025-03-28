@@ -24,9 +24,9 @@ export default class Card extends JSONConvertible {
     /** Описание карты */
     private _description: string
     /** Эффект при жертвовании */
-    private _effectSacrifice?: Effect
+    private readonly _effectSacrifice: Effect
     /** Эффект при начале хода */
-    private _effectTurn?: Effect
+    private readonly _effectTurn: Effect
     /** Данные карты */
     private _cardData: CardData
 
@@ -57,8 +57,8 @@ export default class Card extends JSONConvertible {
     get health(): number { return this._health }
     get price(): number { return this._price }
     get description(): string { return this._description }
-    get effectSacrifice(): Effect | undefined { return Object.freeze(this._effectSacrifice) }
-    get effectTurn(): Effect | undefined { return Object.freeze(this._effectTurn) }
+    get effectSacrifice() { return this._effectSacrifice }
+    get effectTurn() { return this._effectTurn }
 
     /**
      * Обновляет внутренние настройки карты

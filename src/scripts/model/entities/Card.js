@@ -29,8 +29,8 @@ export default class Card extends JSONConvertible {
     get health() { return this._health; }
     get price() { return this._price; }
     get description() { return this._description; }
-    get effectSacrifice() { return Object.freeze(this._effectSacrifice); }
-    get effectTurn() { return Object.freeze(this._effectTurn); }
+    get effectSacrifice() { return this._effectSacrifice; }
+    get effectTurn() { return this._effectTurn; }
     /**
      * Обновляет внутренние настройки карты
      */

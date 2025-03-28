@@ -135,10 +135,16 @@ export default class Board {
      */
     useTurnEffects(): void {
         for (let i = 0; i < 5; i++) {
-            this._sideOpponent[i].card?.effectTurn?.cast()
+            let effect = this._sideOpponent[i].card?.effectTurn
+            if (effect !== undefined) {
+                effect()
+            }
         }
         for (let i = 0; i < 5; i++) {
-            this._sidePlayer[i].card?.effectTurn?.cast()
+            let effect = this._sidePlayer[i].card?.effectTurn
+            if (effect !== undefined) {
+                effect()
+            }
         }
     }
 

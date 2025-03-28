@@ -4,5 +4,6 @@
   },
   "scripts": {
     "git-add": "npx tsc && git add ."
-  }
+  },
+  "type": "module"
 }

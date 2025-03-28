@@ -122,12 +122,18 @@ export default class Board {
      * Использует эффекты начала хода каждой карты
      */
     useTurnEffects() {
-        var _a, _b, _c, _d;
+        var _a, _b;
         for (let i = 0; i < 5; i++) {
-            (_b = (_a = this._sideOpponent[i].card) === null || _a === void 0 ? void 0 : _a.effectTurn) === null || _b === void 0 ? void 0 : _b.cast();
+            let effect = (_a = this._sideOpponent[i].card) === null || _a === void 0 ? void 0 : _a.effectTurn;
+            if (effect !== undefined) {
+                effect();
+            }
         }
         for (let i = 0; i < 5; i++) {
-            (_d = (_c = this._sidePlayer[i].card) === null || _c === void 0 ? void 0 : _c.effectTurn) === null || _d === void 0 ? void 0 : _d.cast();
+            let effect = (_b = this._sidePlayer[i].card) === null || _b === void 0 ? void 0 : _b.effectTurn;
+            if (effect !== undefined) {
+                effect();
+            }
         }
     }
     /**

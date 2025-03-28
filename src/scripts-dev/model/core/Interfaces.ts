@@ -1,5 +1,4 @@
 import Card from "../entities/Card.js"
-import { EffectType } from "./Enums.js"
 
 /**
  * Интерфейс, описывающий данные карты
@@ -18,31 +17,19 @@ export interface CardData {
     /** Описание карты */
     description: string,
     /** Эффект при жертвовании */
-    effectSacrifice?: Effect,
+    effectSacrifice: Effect,
     /** Эффект при начале хода */
-    effectTurn?: Effect
+    effectTurn: Effect
 }
 
 /**
  * Интерфейс, описывающий данные уровня
  */
-export interface TiersData {
+export interface DifficultData {
     /** Карты игрока для данного уровня */
     player: string[],
     /** Карты противника для данного уровня */
     enemies: string[]
-}
-
-/**
- * Интерфейс, описывающий эффекты карт
- */
-export interface Effect {
-    /** Название эффекта */
-    name: string,
-    /** Тип эффекта */
-    type: EffectType | string,
-    /** Сущность эффекта */
-    cast: (...args: any[]) => void
 }
 
 /**
@@ -62,3 +49,8 @@ export interface AfterFightInfo {
     /** Ячейки противника получившие урон */
     opponentCellDamagePosition: number[]
 }
+
+/**
+ * Тип эффекта 
+ */
+export type Effect = (...args: any[]) => void
