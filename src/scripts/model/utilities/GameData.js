@@ -1,3 +1,4 @@
+import { GameDifficult } from "../core/Enums.js";
 import Card from "../entities/Card.js";
 // ToDo: Сделай загрузку асинхронной с файлов
 export default class GameData {
@@ -9,15 +10,27 @@ export default class GameData {
         console.log("Загрузка завершена!");
     }
     get effects() { return Object.freeze(this._effects); }
-    getEffect(effectName) {
-        let effect = this._effects.get(effectName);
-        if (effect)
-            return effect;
-        return () => { console.log("Just Nothing"); };
-    }
     get cards() { return Object.freeze(this._cards); }
     get difficults() { return Object.freeze(this._difficults); }
     get config() { return Object.freeze(this._config); }
+    getEffect(effectName) {
+        let effect = this._effects.get(effectName);
+        if (!effect)
+            throw new Error("Такого эффекта нет");
+        return effect;
+    }
+    getCard(cardName) {
+        let card = this._cards.get(cardName);
+        if (!card)
+            throw new Error("Такой карты нет");
+        return card.clone();
+    }
+    getDifficult(difficultNumber) {
+        let difficult = this._difficults.get(difficultNumber);
+        if (!difficult)
+            throw new Error("Такого уровня нет");
+        return difficult;
+    }
     loadEffects() {
         let newEffects = new Map();
         let someEffects = [
@@ -121,7 +134,7 @@ export default class GameData {
                 effectTurn: "Защита"
             },
             {
-                name: "Dear",
+                name: "Totem",
                 coverPath: "assets/images/Totem.webp",
                 attack: 0,
                 health: 1,
@@ -142,13 +155,42 @@ export default class GameData {
                 effectSacrifice: this.getEffect(someCards[i].effectSacrifice),
                 effectTurn: this.getEffect(someCards[i].effectTurn)
             });
+            newCards.set(card.name, card);
         }
         console.log("Загрузка карт завершена...");
         return newCards;
     }
     loadDifficults() {
         let newDifficults = new Map();
-        //
+        let someDifficults = [
+            {
+                player: [
+                    "Rabbit",
+                    "Dog",
+                    "Totem"
+                ],
+                enemies: [
+                    "Hunter",
+                    "Shaman"
+                ]
+            },
+            {
+                player: [
+                    "Rabbit",
+                    "Dog",
+                    "Totem",
+                    "Bear",
+                    "Dear"
+                ],
+                enemies: [
+                    "Hunter",
+                    "Shaman",
+                    "Cultist"
+                ]
+            }
+        ];
+        newDifficults.set(GameDifficult.Spring, someDifficults[0]);
+        newDifficults.set(GameDifficult.Summer, someDifficults[1]);
         console.log("Загрузка уровней завершена...");
         return newDifficults;
     }

@@ -5,7 +5,7 @@ import Card from "../entities/Card.js";
 // ToDo: Сделай загрузку асинхронной с файлов
 export default class GameData {
     private _effects: Map<string, Effect>
-    private _cards: Map<string, CardData>
+    private _cards: Map<string, Card>
     private _difficults: Map<GameDifficult, DifficultData>
     private _config: Object
 
@@ -18,14 +18,27 @@ export default class GameData {
     }
 
     get effects(): Map<string, Effect> { return Object.freeze(this._effects) }
-    getEffect(effectName: string): Effect { 
-        let effect = this._effects.get(effectName)
-        if (effect) return effect
-        return () => { console.log("Just Nothing") }
-    }
-    get cards(): Map<string, CardData> { return Object.freeze(this._cards) }
+    get cards(): Map<string, Card> { return Object.freeze(this._cards) }
     get difficults(): Map<GameDifficult, DifficultData> { return Object.freeze(this._difficults) }
     get config(): Object { return Object.freeze(this._config) }
+
+    getEffect(effectName: string): Effect { 
+        let effect = this._effects.get(effectName)
+        if (!effect) throw new Error("Такого эффекта нет")
+        return effect
+    }
+
+    getCard(cardName: string): Card {
+        let card = this._cards.get(cardName)
+        if (!card) throw new Error("Такой карты нет")
+        return card.clone()
+    }
+
+    getDifficult(difficultNumber: GameDifficult): DifficultData {
+        let difficult = this._difficults.get(difficultNumber)
+        if (!difficult) throw new Error("Такого уровня нет")
+        return difficult
+    }
 
     private loadEffects(): Map<string, Effect> {
         let newEffects = new Map<string, Effect>()
@@ -58,8 +71,8 @@ export default class GameData {
         return newEffects
     }
 
-    private loadCards(): Map<string, CardData> {
-        let newCards = new Map<string, CardData>()
+    private loadCards(): Map<string, Card> {
+        let newCards = new Map<string, Card>()
 
         if (this._effects.size <= 1) throw new Error("Ошибка загрузки эффектов")
 
@@ -135,7 +148,7 @@ export default class GameData {
                 effectTurn: "Защита"
             },
             {
-                name: "Dear",
+                name: "Totem",
                 coverPath: "assets/images/Totem.webp",
                 attack: 0,
                 health: 1,
@@ -159,7 +172,7 @@ export default class GameData {
                     effectTurn: this.getEffect(someCards[i].effectTurn)
                 }
             )
-
+            newCards.set(card.name, card)
         }
 
         console.log("Загрузка карт завершена...")
@@ -169,7 +182,36 @@ export default class GameData {
     private loadDifficults(): Map<GameDifficult, DifficultData> {
         let newDifficults = new Map<GameDifficult, DifficultData>()
 
-        //
+        let someDifficults: DifficultData[] = [
+            {
+                player: [
+                    "Rabbit",
+                    "Dog",
+                    "Totem"
+                ],
+                enemies: [
+                    "Hunter",
+                    "Shaman"
+                ]
+            },
+            {
+                player: [
+                    "Rabbit",
+                    "Dog",
+                    "Totem",
+                    "Bear",
+                    "Dear"
+                ],
+                enemies: [  
+                    "Hunter",
+                    "Shaman",
+                    "Cultist"
+                ]
+            }
+        ]
+
+        newDifficults.set(GameDifficult.Spring, someDifficults[0])
+        newDifficults.set(GameDifficult.Summer, someDifficults[1])
 
         console.log("Загрузка уровней завершена...")
         return newDifficults

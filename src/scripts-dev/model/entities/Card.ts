@@ -117,6 +117,7 @@ export default class Card extends JSONConvertible {
         if (value < 0) return
         this._health += value
         this._healthMax += value
+        this.updateCardData()
     }
 
     /**

@@ -87,6 +87,7 @@ export default class Card extends JSONConvertible {
             return;
         this._health += value;
         this._healthMax += value;
+        this.updateCardData();
     }
     /**
      * Увеличение стоимости карты
