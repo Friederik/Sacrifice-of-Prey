@@ -22,8 +22,8 @@ export default class Deck {
         // this.shuffleDeck()
     }
     
-    get cards(): readonly Card[] { return Object.freeze(this._cards) }
-    get discard(): readonly Card[] { return Object.freeze(this._discard) }
+    get cards():  Card[] { return this._cards }
+    get discard(): Card[] { return this._discard }
     get drawCount(): number { return this._drawCount }
 
     /**
@@ -74,7 +74,8 @@ export default class Deck {
         if (cards instanceof Card) {
             this._discard.unshift(cards)
         } else {
-            this._discard = cards.concat(this._discard)
+            if (cards.length === 0) return
+            this._discard = this._discard.concat(cards)
         }
     }
 
@@ -86,6 +87,7 @@ export default class Deck {
     drawCards(count: number): Card[] {
         let outCards: Card[] = []
         for (let i = 0; i < count; i++) {
+            if (this._cards.length <= 0) break
             let card = this._cards.pop()
             if (!card) break
             else outCards.push(card)

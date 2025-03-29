@@ -1,58 +1,84 @@
 {
-    "cardsInfo": [
+    "cardsData": [
+        {
+            "name": "Hunter",
+            "coverPath": "assets/images/Hunter.webp",
+            "attack": 4,
+            "health": 2,
+            "price": 2,
+            "description": "Он почти крутой",
+            "effectSacrifice": "Пусто",
+            "effectTurn": "Атака"
+        },
+        {
+            "name": "Shaman",
+            "coverPath": "assets/images/Shaman.webp",
+            "attack": 5,
+            "health": 1,
+            "price": 1,
+            "description": "Крейзи чел",
+            "effectSacrifice": "Восстановление",
+            "effectTurn": "Пусто"
+        },
+        {
+            "name": "Shaman",
+            "coverPath": "assets/images/Cultist.webp",
+            "attack": 2,
+            "health": 9,
+            "price": 15,
+            "description": "ОН ТРУС",
+            "effectSacrifice": "Пусто",
+            "effectTurn": "Защита"
+        },
         {
             "name": "Dog",
-            "cover": "assets/test/Dog.jpg",
+            "coverPath": "assets/images/Dog.webp",
             "attack": 2,
-            "health": 1,
-            "abilities": ["Predator"]
+            "health": 3,
+            "price": 5,
+            "description": "Он че то там крутой в общем",
+            "effectSacrifice": "Атака",
+            "effectTurn": "Атака"
         },
         {
             "name": "Rabbit",
-            "cover": "assets/test/Rabbit.jpg",
+            "coverPath": "assets/images/Rabbit.webp",
             "attack": 1,
-            "health": 3,
-            "abilities": ["Pray"]
+            "health": 1,
+            "price": 3,
+            "description": "Микрик",
+            "effectSacrifice": "Пусто",
+            "effectTurn": "Пусто"
         },
         {
             "name": "Dear",
-            "cover": "assets/test/Dear.jpg",
-            "attack": 2,
-            "health": 2,
-            "abilities": []
-        },
-        {
-            "name": "Wolf",
-            "cover": "assets/test/Wolf.jpg",
+            "coverPath": "assets/images/Dear.webp",
             "attack": 4,
-            "health": 2,
-            "abilities": ["Predator"]
-        }
-    ],
-    "enemiesInfo": [
-        {
-            "name": "The Pied Piper",
-            "cover": "assets/test/The Pied Piper.jpg",
-            "attack": 1,
-            "health": 4,
-            "abilities": [],
-            "reward": 1
+            "health": 6,
+            "price": 7,
+            "description": "Слов нет - он крутой",
+            "effectSacrifice": "Защита",
+            "effectTurn": "Пусто"
         },
         {
-            "name": "Hunter",
-            "cover": "assets/test/Hunter.jpg",
-            "attack": 2,
-            "health": 2,
-            "abilities": [],
-            "reward": 1
-        },
-        {
-            "name": "Cultist",
-            "cover": "assets/test/Cultist.jpg",
-            "attack": 2,
+            "name": "Bear",
+            "coverPath": "assets/images/Bear.webp",
+            "attack": 8,
             "health": 8,
-            "abilities": ["Coward"],
-            "reward": 4
+            "price": 10,
+            "description": "Не спит даже",
+            "effectSacrifice": "Защита",
+            "effectTurn": "Защита"
+        },
+        {
+            "name": "Totem",
+            "coverPath": "assets/images/Totem.webp",
+            "attack": 0,
+            "health": 1,
+            "price": 2,
+            "description": "Стоит че то",
+            "effectSacrifice": "Восстановление",
+            "effectTurn": "Атака"
         }
     ]
 }

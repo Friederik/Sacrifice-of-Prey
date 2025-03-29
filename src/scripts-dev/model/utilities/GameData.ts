@@ -1,6 +1,7 @@
 import { BoardSide, GameDifficult } from "../core/Enums.js";
 import { CardData, DifficultData, Effect } from "../core/Interfaces.js";
 import Card from "../entities/Card.js";
+import Threat from "../entities/Threat.js";
 
 // ToDo: Сделай загрузку асинхронной с файлов
 /**
@@ -71,14 +72,15 @@ export default class GameData {
      */
     getStartDeck(): Card[] {
         return [
-            this.getCard("Dog"),
-            this.getCard("Dog"),
+            
             this.getCard("Dog"),
             this.getCard("Rabbit"),
             this.getCard("Rabbit"),
+            this.getCard("Dear"),
+            this.getCard("Dog"),
+            this.getCard("Bear"),
             this.getCard("Rabbit"),
-            this.getCard("Totem"),
-            this.getCard("Totem")
+            this.getCard("Dog")
         ]
     }
 
@@ -114,6 +116,10 @@ export default class GameData {
         }
         let randomName = cards[Math.floor(Math.random() * cards.length)]
         return this.getCard(randomName)
+    }
+
+    generateThreat(difficultNumber: GameDifficult): Threat {
+        return new Threat(this.generateCard(difficultNumber, BoardSide.Opponent))
     }
 
     /**
@@ -202,7 +208,7 @@ export default class GameData {
                 name: "Shaman",
                 coverPath: "assets/images/Cultist.webp",
                 attack: 2,
-                health: 9,
+                health: 7,
                 price: 15,
                 description: "ОН ТРУС",
                 effectSacrifice: "Пусто",

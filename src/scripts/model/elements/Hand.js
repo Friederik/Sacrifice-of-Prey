@@ -8,8 +8,11 @@ export default class Hand {
         this._cards = [];
         this._handLimit = 5;
     }
-    get cards() { return Object.freeze(this._cards); }
+    get cards() { return this._cards; }
     get handLimit() { return this._handLimit; }
+    getCard(cardId) {
+        return this._cards[cardId];
+    }
     /**
      * Добавляет в руку карты,
      * возвращает избыток для сброса

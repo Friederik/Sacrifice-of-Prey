@@ -22,7 +22,7 @@ export default class Card extends JSONConvertible {
         this._description = cardData.description;
         this._cardData = cardData;
     }
-    get data() { return Object.freeze(this._cardData); }
+    get data() { return this._cardData; }
     get name() { return this._name; }
     get coverPath() { return this._coverPath; }
     get attack() { return this._attack; }

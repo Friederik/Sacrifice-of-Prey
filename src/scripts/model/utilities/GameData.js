@@ -1,5 +1,6 @@
 import { BoardSide } from "../core/Enums.js";
 import Card from "../entities/Card.js";
+import Threat from "../entities/Threat.js";
 // ToDo: Сделай загрузку асинхронной с файлов
 /**
  * Класс предзагрузки данных
@@ -59,13 +60,13 @@ export default class GameData {
     getStartDeck() {
         return [
             this.getCard("Dog"),
+            this.getCard("Rabbit"),
+            this.getCard("Rabbit"),
+            this.getCard("Dear"),
             this.getCard("Dog"),
-            this.getCard("Dog"),
+            this.getCard("Bear"),
             this.getCard("Rabbit"),
-            this.getCard("Rabbit"),
-            this.getCard("Rabbit"),
-            this.getCard("Totem"),
-            this.getCard("Totem")
+            this.getCard("Dog")
         ];
     }
     /**
@@ -99,6 +100,9 @@ export default class GameData {
         }
         let randomName = cards[Math.floor(Math.random() * cards.length)];
         return this.getCard(randomName);
+    }
+    generateThreat(difficultNumber) {
+        return new Threat(this.generateCard(difficultNumber, BoardSide.Opponent));
     }
     /**
      * Генерирует набор для магазина
@@ -180,7 +184,7 @@ export default class GameData {
                 name: "Shaman",
                 coverPath: "assets/images/Cultist.webp",
                 attack: 2,
-                health: 9,
+                health: 7,
                 price: 15,
                 description: "ОН ТРУС",
                 effectSacrifice: "Пусто",

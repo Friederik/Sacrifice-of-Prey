@@ -15,8 +15,12 @@ export default class Hand {
         this._handLimit = 5
     }
 
-    get cards(): readonly Card[] { return Object.freeze(this._cards)}
+    get cards(): Card[] { return this._cards }
     get handLimit(): number { return this._handLimit }
+
+    getCard(cardId: number): Card {
+        return this._cards[cardId]
+    }
 
     /**
      * Добавляет в руку карты,

@@ -21,7 +21,7 @@ export default class Shop {
         ]
     }
 
-    get allCells(): readonly ShopCell[] { return Object.freeze(this._cells) }
+    get allCells(): ShopCell[] { return this._cells }
     /**
      * Цена выбранной карты в магазине
      * @param cellPos Номер ячейки

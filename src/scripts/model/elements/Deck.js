@@ -13,8 +13,8 @@ export default class Deck {
         this._drawCount = 2;
         // this.shuffleDeck()
     }
-    get cards() { return Object.freeze(this._cards); }
-    get discard() { return Object.freeze(this._discard); }
+    get cards() { return this._cards; }
+    get discard() { return this._discard; }
     get drawCount() { return this._drawCount; }
     /**
      * Перемешивает колоду по алгоритму Фишера-Йетса
@@ -63,7 +63,9 @@ export default class Deck {
             this._discard.unshift(cards);
         }
         else {
-            this._discard = cards.concat(this._discard);
+            if (cards.length === 0)
+                return;
+            this._discard = this._discard.concat(cards);
         }
     }
     /**
@@ -74,6 +76,8 @@ export default class Deck {
     drawCards(count) {
         let outCards = [];
         for (let i = 0; i < count; i++) {
+            if (this._cards.length <= 0)
+                break;
             let card = this._cards.pop();
             if (!card)
                 break;

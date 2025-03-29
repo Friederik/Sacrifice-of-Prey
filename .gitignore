@@ -1,4 +1,6 @@
 test.*
 test/
 
+.vscode/
+
 node_modules/

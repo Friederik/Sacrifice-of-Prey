@@ -12,10 +12,10 @@ export default class Board {
         this._sideOpponent = [new BoardCell(), new BoardCell(), new BoardCell(), new BoardCell(), new BoardCell()];
     }
     get data() {
-        return [Object.freeze(this._sideOpponent), Object.freeze(this._sidePlayer)];
+        return [this._sideOpponent, this._sidePlayer];
     }
-    get sidePlayer() { return Object.freeze(this._sidePlayer); }
-    get sideOpponent() { return Object.freeze(this._sideOpponent); }
+    get sidePlayer() { return this._sidePlayer; }
+    get sideOpponent() { return this._sideOpponent; }
     /**
      * Размещение карты на пустую ячейку по выбранной стороне.
      * При попытке разместить на занятой ячейке, ничего не произойдет

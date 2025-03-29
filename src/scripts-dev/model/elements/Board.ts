@@ -21,11 +21,11 @@ export default class Board {
         this._sideOpponent = [new BoardCell(), new BoardCell(), new BoardCell(), new BoardCell(), new BoardCell()]
     }
 
-    get data(): readonly [readonly BoardCell[], readonly BoardCell[]] { 
-        return [Object.freeze(this._sideOpponent), Object.freeze(this._sidePlayer)] 
+    get data(): [BoardCell[], BoardCell[]] { 
+        return [this._sideOpponent, this._sidePlayer] 
     }
-    get sidePlayer(): readonly BoardCell[] { return Object.freeze(this._sidePlayer) }
-    get sideOpponent(): readonly BoardCell[] { return Object.freeze(this._sideOpponent) }
+    get sidePlayer(): BoardCell[] { return this._sidePlayer }
+    get sideOpponent(): BoardCell[] { return this._sideOpponent }
 
     /**
      * Размещение карты на пустую ячейку по выбранной стороне.
@@ -175,6 +175,7 @@ export default class Board {
                     discard.push(playerCell.pullOutCard())
                 }
                 if (opponentCell.card.health === 0) {
+                    
                     moneyReceived += opponentCell.card.price
                     opponentCell.pullOutCard()
                 }

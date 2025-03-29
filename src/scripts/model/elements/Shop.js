@@ -15,7 +15,7 @@ export default class Shop {
             new ShopCell(startShop[3])
         ];
     }
-    get allCells() { return Object.freeze(this._cells); }
+    get allCells() { return this._cells; }
     /**
      * Цена выбранной карты в магазине
      * @param cellPos Номер ячейки

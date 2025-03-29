@@ -50,7 +50,7 @@ export default class Card extends JSONConvertible {
         this._cardData = cardData
     }
 
-    get data(): CardData { return Object.freeze(this._cardData) }
+    get data(): CardData { return this._cardData }
     get name(): string { return this._name }
     get coverPath(): string { return this._coverPath }
     get attack(): number { return this._attack }
