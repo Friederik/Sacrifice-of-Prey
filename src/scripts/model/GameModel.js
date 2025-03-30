@@ -55,7 +55,7 @@ export default class GameModel {
      * добавляет новые угрозы
      */
     startTurn() {
-        this._hand.addToHand(this._deck.drawCardsInTurn(this._isFirstTurn));
+        this._deck.addToDiscard(this._hand.addToHand(this._deck.drawCardsInTurn(this._isFirstTurn)));
         this._board.useTurnEffects();
         this._board.releaseThreats();
         if (this._isFirstTurn) {
@@ -65,11 +65,11 @@ export default class GameModel {
             ]);
         }
         else {
-            this._shop.refresh(this._gameData.generateShopCards(this._difficult));
             this._board.randomPlaceThreats([
                 this._gameData.generateThreat(this._difficult)
             ]);
         }
+        this._shop.refresh(this._gameData.generateShopCards(this._difficult));
         this._isFirstTurn = false;
     }
     /**
@@ -81,8 +81,9 @@ export default class GameModel {
      */
     endTurn() {
         let altarCard = this._altar.pullOutCard();
-        if (altarCard)
-            this._hand.addToHand(altarCard);
+        if (altarCard) {
+            this._deck.addToDiscard(this._hand.addToHand(altarCard));
+        }
         let fightInfo = this._board.fight();
         this._deck.addToDiscard(fightInfo.discard);
         this._player.addMoney(fightInfo.moneyReceived);

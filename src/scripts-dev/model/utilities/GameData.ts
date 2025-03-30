@@ -80,6 +80,10 @@ export default class GameData {
             this.getCard("Dog"),
             this.getCard("Bear"),
             this.getCard("Rabbit"),
+            this.getCard("Dog"),
+            this.getCard("Dog"),
+            this.getCard("Bear"),
+            this.getCard("Rabbit"),
             this.getCard("Dog")
         ]
     }

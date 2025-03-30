@@ -87,7 +87,7 @@ export default class Deck {
     drawCards(count: number): Card[] {
         let outCards: Card[] = []
         for (let i = 0; i < count; i++) {
-            if (this._cards.length <= 0) break
+            if (this._cards.length <= 0) this.pullDeck()
             let card = this._cards.pop()
             if (!card) break
             else outCards.push(card)

@@ -61,14 +61,10 @@ function render() {
 
     updateHand()
 }
-console.log(gameModel)
 gameModel.startTurn()
-// gameModel.startTurn()
+gameModel.startTurn()
+
 // gameModel.hand.addToHand(gameModel.deck.drawCards(2))
-
-
-
-
 
 function updateHand() {
     for (let i = 0; i < gameModel.hand.cards.length; i++) {
@@ -77,6 +73,7 @@ function updateHand() {
             card.addEventListener("click", () => {
                 let id = Number(card.id.slice(-1))
                 gameModel.chooseCard(id)
+                console.log(card)
                 render()
                 updateHand()
             })
@@ -92,6 +89,5 @@ if (endTurnBtn) {
         render()
     })
 }
-
 
 render()
