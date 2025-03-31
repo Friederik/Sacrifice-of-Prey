@@ -7,7 +7,7 @@ export default class Player {
      */
     constructor() {
         this._health = 30;
-        this._money = 0;
+        this._money = 15;
         this._isAlive = true;
     }
     get health() { return this._health; }

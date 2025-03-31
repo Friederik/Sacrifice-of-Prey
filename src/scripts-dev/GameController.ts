@@ -17,8 +17,8 @@ function render() {
     let deck = document.querySelector(".deck")
     if (deck) {
         deck.innerHTML = `
-            <div class="box">📚 Deck: ${gameModel.deck.cards.length}</div>
-            <div class="box">♻️ Discard: ${gameModel.deck.discard.length}</div>
+            <div class="box">📚 Колода: ${gameModel.deck.cards.length}</div>
+            <div class="box">♻️ Сброс: ${gameModel.deck.discard.length}</div>
         `
     }
 
@@ -72,7 +72,7 @@ function updateHand() {
         if (card){
             card.addEventListener("click", () => {
                 let id = Number(card.id.slice(-1))
-                gameModel.chooseCard(id)
+                gameModel.selectCard(id)
                 console.log(card)
                 render()
                 updateHand()

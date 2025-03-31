@@ -23,6 +23,10 @@ export default class Card extends JSONConvertible {
     private _price: number
     /** Описание карты */
     private _description: string
+    /** Название эффекта при жертвовании */
+    private _effectSacrificeName: string
+    /** Название эффекта при начале хода */
+    private _effectTurnName: string
     /** Эффект при жертвовании */
     private readonly _effectSacrifice: Effect
     /** Эффект при начале хода */
@@ -44,6 +48,8 @@ export default class Card extends JSONConvertible {
         this._attack = cardData.attack
         this._health = cardData.health
         this._price = cardData.price
+        this._effectSacrificeName = cardData.effectSacrificeName
+        this._effectTurnName = cardData.effectTurnName
         this._effectSacrifice = cardData.effectSacrifice
         this._effectTurn = cardData.effectTurn 
         this._description = cardData.description
@@ -57,6 +63,8 @@ export default class Card extends JSONConvertible {
     get health(): number { return this._health }
     get price(): number { return this._price }
     get description(): string { return this._description }
+    get effectSacrificeName(): string { return this._effectSacrificeName }
+    get effectTurnName(): string { return this._effectTurnName }
     get effectSacrifice() { return this._effectSacrifice }
     get effectTurn() { return this._effectTurn }
 

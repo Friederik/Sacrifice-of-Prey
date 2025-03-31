@@ -1,4 +1,4 @@
-import { GameDifficult } from "./core/Enums.js";
+import { BoardSide, GameDifficult } from "./core/Enums.js";
 import Board from "./elements/Board.js";
 import Deck from "./elements/Deck.js";
 import Hand from "./elements/Hand.js";
@@ -65,11 +65,11 @@ export default class GameModel {
             ]);
         }
         else {
+            this._shop.refresh(this._gameData.generateShopCards(this._difficult));
             this._board.randomPlaceThreats([
                 this._gameData.generateThreat(this._difficult)
             ]);
         }
-        this._shop.refresh(this._gameData.generateShopCards(this._difficult));
         this._isFirstTurn = false;
     }
     /**
@@ -95,21 +95,74 @@ export default class GameModel {
      * Если на алтаре уже есть карта, то она обратно уходит в руку
      * @param cardId Номер карты в руке
      */
-    chooseCard(cardId) {
+    selectCard(cardId) {
         let altarCard = this._altar.pullOutCard();
         let card = this._hand.pullOutCard(cardId);
         this._altar.insertCard(card);
         if (altarCard)
             this._hand.addToHand(altarCard);
     }
-    sacrificeCard() {
+    /**
+     * Жертвует карту с алтаря
+     * @param args Аргументы для эффекта жертвования карты
+     */
+    sacrificeAltarCard(...args) {
+        let altarCard = this._altar.pullOutCard();
+        if (altarCard) {
+            altarCard.effectSacrifice(...args);
+            this._deck.addToDiscard(altarCard);
+        }
     }
-    soldCard() {
+    /**
+     * Убирает карту с алтаря и добавляет ее стоимость игроку
+     */
+    sellAltarCard() {
+        let altarCard = this._altar.pullOutCard();
+        if (altarCard) {
+            this._player.addMoney(altarCard.price);
+            altarCard = null;
+        }
     }
-    placeCard() {
+    returnAltarCard() {
+        let altarCard = this._altar.pullOutCard();
+        if (altarCard) {
+            this._deck.addToDiscard(this._hand.addToHand(altarCard));
+        }
     }
-    buyCard() {
+    /**
+     * Ставит карту на ячейку поля и убирает с алтаря, если не занята
+     * @param cellId Номер ячейки поля
+     */
+    placeAltarCard(cellId) {
+        if (!this._board.sidePlayer[cellId].checkCard()) {
+            let altarCard = this._altar.pullOutCard();
+            if (altarCard)
+                this._board.placeCard(BoardSide.Player, cellId, altarCard);
+        }
     }
+    /**
+     * Купить выбранную карту в магазине.
+     * Нельзя купить при полной руке или недостаточности монет
+     * @param cardId Номер карты в магазине
+     */
+    buyCard(cardId) {
+        if (this._shop.allCells[cardId].checkCard()
+            && (this._shop.cellPrice(cardId) < this._player.money)
+            && (this._hand.cards.length !== this._hand.handLimit)) {
+            let price = this._shop.cellPrice(cardId);
+            let card = this._shop.buyCell(cardId);
+            if (card) {
+                this._player.spendMoney(price);
+                this._hand.addToHand(card);
+            }
+        }
+    }
+    /**
+     * Обновить магазин за 5 монет
+     */
     refreshShop() {
+        this._player.spendMoney(5);
+        let newCards = this.gameData.generateShopCards(this._difficult);
+        this._shop.refresh(newCards);
     }
 }

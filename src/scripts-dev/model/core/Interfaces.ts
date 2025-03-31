@@ -16,6 +16,10 @@ export interface CardData {
     price: number,
     /** Описание карты */
     description: string,
+    /** Название эффекта при жертвовании */
+    effectSacrificeName: string,
+    /** Название эффекта при начале хода */
+    effectTurnName: string
     /** Эффект при жертвовании */
     effectSacrifice: Effect,
     /** Эффект при начале хода */

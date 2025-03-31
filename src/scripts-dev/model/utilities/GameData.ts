@@ -195,8 +195,8 @@ export default class GameData {
                 health: 2,
                 price: 2,
                 description: "Он почти крутой",
-                effectSacrifice: "Пусто",
-                effectTurn: "Атака"
+                effectSacrificeName: "Пусто",
+                effectTurnName: "Атака"
             },
             {
                 name: "Shaman",
@@ -205,8 +205,8 @@ export default class GameData {
                 health: 1,
                 price: 1,
                 description: "Крейзи чел",
-                effectSacrifice: "Восстановление",
-                effectTurn: "Пусто"
+                effectSacrificeName: "Восстановление",
+                effectTurnName: "Пусто"
             },
             {
                 name: "Shaman",
@@ -215,8 +215,8 @@ export default class GameData {
                 health: 7,
                 price: 15,
                 description: "ОН ТРУС",
-                effectSacrifice: "Пусто",
-                effectTurn: "Защита"
+                effectSacrificeName: "Пусто",
+                effectTurnName: "Защита"
             },
             {
                 name: "Dog",
@@ -225,8 +225,8 @@ export default class GameData {
                 health: 3,
                 price: 5,
                 description: "Он че то там крутой в общем",
-                effectSacrifice: "Атака",
-                effectTurn: "Атака"
+                effectSacrificeName: "Атака",
+                effectTurnName: "Атака"
             },
             {
                 name: "Rabbit",
@@ -235,8 +235,8 @@ export default class GameData {
                 health: 1,
                 price: 3,
                 description: "Микрик",
-                effectSacrifice: "Пусто",
-                effectTurn: "Пусто"
+                effectSacrificeName: "Пусто",
+                effectTurnName: "Пусто"
             },
             {
                 name: "Dear",
@@ -245,8 +245,8 @@ export default class GameData {
                 health: 6,
                 price: 7,
                 description: "Слов нет - он крутой",
-                effectSacrifice: "Защита",
-                effectTurn: "Пусто"
+                effectSacrificeName: "Защита",
+                effectTurnName: "Пусто"
             },
             {
                 name: "Bear",
@@ -255,8 +255,8 @@ export default class GameData {
                 health: 8,
                 price: 10,
                 description: "Не спит даже",
-                effectSacrifice: "Защита",
-                effectTurn: "Защита"
+                effectSacrificeName: "Защита",
+                effectTurnName: "Защита"
             },
             {
                 name: "Totem",
@@ -265,8 +265,8 @@ export default class GameData {
                 health: 1,
                 price: 2,
                 description: "Стоит че то",
-                effectSacrifice: "Восстановление",
-                effectTurn: "Атака"
+                effectSacrificeName: "Восстановление",
+                effectTurnName: "Атака"
             }
         ]
 
@@ -279,8 +279,10 @@ export default class GameData {
                     health: someCards[i].health,
                     price: someCards[i].price,
                     description: someCards[i].description,
-                    effectSacrifice: this.getEffect(someCards[i].effectSacrifice),
-                    effectTurn: this.getEffect(someCards[i].effectTurn)
+                    effectSacrificeName: someCards[i].effectSacrificeName,
+                    effectTurnName: someCards[i].effectTurnName,
+                    effectSacrifice: this.getEffect(someCards[i].effectSacrificeName),
+                    effectTurn: this.getEffect(someCards[i].effectTurnName)
                 }
             )
             newCards.set(card.name, card)

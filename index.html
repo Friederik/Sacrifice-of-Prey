@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="src/styles/main.css">
-    <link rel="shortcut icon" href="assets\images/logo.webp" type="image/x-icon">
+    <link rel="shortcut icon" href="assets/images/logo.webp" type="image/x-icon">
     <script type="module" src="src/scripts/GameController.js" defer></script>
     <!-- <script type="module" src="src/scripts/test.js" defer></script> -->
     <title>Sacrifice of Prey</title>
@@ -17,6 +17,7 @@
             text-align: center;
         }
         .container {
+            user-select: none;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -26,8 +27,8 @@
         .player {
             display: flex;
             justify-content: space-between;
-            width: 300px;
-            height: 100px;
+            width: 200px;
+            height: 40px;
             padding: 10px;
             background-color: #444;
             border-radius: 10px;
@@ -95,6 +96,10 @@
             display: flex;
             gap: 5px;
         }
+        .buttons button {
+            display: flex;
+            gap: 5px;
+        }
         button {
             padding: 5px 10px;
             background-color: #888;
@@ -102,9 +107,20 @@
             cursor: pointer;
             border-radius: 5px;
         }
+        button:active {
+            transform: scale(0.95);
+        }
         .end-turn {
             padding: 10px;
             background-color: red;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .end-turn {
+            padding: 10px;
+            background-color: red;
+            color: #FFF;
             border-radius: 10px;
             cursor: pointer;
             font-weight: bold;
@@ -137,11 +153,9 @@
 
         <!-- Колода и сброс -->
         <div class="deck">
-            <div class="box">📚 Deck: 10</div>
-            <div class="box">♻️ Discard: 5</div>
+            <div class="box">📚 Колода: 10</div>
+            <div class="box">♻️ Сброс: 5</div>
         </div>
-
-        
 
         <!-- Игровое поле 5x2 -->
         <div class="board">
@@ -161,15 +175,15 @@
         <div class="altar">
             <div class="card">🔲</div>
             <div class="buttons">
-                <button>🔥 Sacrifice</button>
-                <button>🔁 Swap</button>
-                <button>⚡ Buff</button>
+                <button>🔙 <p>Вернуть</p></button>
+                <button>🔼 <p>Выставить</p></button>
+                <button>🔥 <p>Жертвовать</p></button>
+                <button>💸 <p>Продать</p></button>
             </div>
         </div>
 
         <!-- Рука игрока -->
-        <div class="hand">
-        </div>
+        <div class="hand"></div>
 
         <!-- Магазин -->
         <div class="shop">
@@ -177,10 +191,11 @@
             <div class="card" id="shop-2">🔥</div>
             <div class="card" id="shop-3">⚡</div>
             <div class="card" id="shop-4">🛡️</div>
+            <button class="resfresh-shop">🔄 Обновить (5💰)</button>
         </div>
 
         <!-- Кнопка конца хода -->
-        <button class="end-turn">End Turn</button>
+        <button class="end-turn">Закончить</button>
     </div>
 </body>
 </html>
