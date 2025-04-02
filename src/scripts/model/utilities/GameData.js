@@ -185,7 +185,7 @@ export default class GameData {
                 effectTurnName: "Пусто"
             },
             {
-                name: "Shaman",
+                name: "Cultist",
                 coverPath: "assets/images/Cultist.webp",
                 attack: 2,
                 health: 7,

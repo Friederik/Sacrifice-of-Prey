@@ -186,7 +186,7 @@ export default class GameModel {
      */
     buyCard(cardId: number): void {
         if (this._shop.allCells[cardId].checkCard() 
-        && (this._shop.cellPrice(cardId) < this._player.money)
+        && (this._shop.cellPrice(cardId) <= this._player.money)
         && (this._hand.cards.length !== this._hand.handLimit)) {
             let price = this._shop.cellPrice(cardId)
             let card = this._shop.buyCell(cardId)
@@ -201,6 +201,7 @@ export default class GameModel {
      * Обновить магазин за 5 монет
      */
     refreshShop(): void {
+        if (this._player.money < 5) return
         this._player.spendMoney(5)
         let newCards = this.gameData.generateShopCards(this._difficult)
         this._shop.refresh(newCards)

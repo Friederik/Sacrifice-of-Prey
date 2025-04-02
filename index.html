@@ -58,19 +58,41 @@
             background-color: #444;
             border-radius: 10px;
         }
-        .card {
+        .card, .cell {
             width: 60px;
             height: 90px;
             background-color: #666;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             border-radius: 5px;
-            font-size: 20px;
+            font-size: 0.9em;
+        }
+        .cell {
+            background-color: #555;
+        }
+        .card-battle {
+            width: 70%;
+            display: flex;
+            justify-content: space-between;
+        }
+        .stats {
+            background-color: #888;
+            font-weight: 800;
+        }
+        .card-attack {
+            color: crimson;
+        }
+        .card-health {
+            color:yellowgreen;
+        }
+        .card-price {
+            color: gold;
         }
         .cover {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
         }
         .board {
             display: grid;
@@ -125,6 +147,10 @@
             cursor: pointer;
             font-weight: bold;
         }
+        .game-over {
+            margin: 15% auto;
+            
+        }
     </style>
 </head>
 <body>
@@ -159,43 +185,51 @@
 
         <!-- Игровое поле 5x2 -->
         <div class="board">
-            <div class="card" id="table-opponent-0">🔲</div>
-            <div class="card" id="table-opponent-1">🔲</div>
-            <div class="card" id="table-opponent-2">🔲</div>
-            <div class="card" id="table-opponent-3">🔲</div>
-            <div class="card" id="table-opponent-4">🔲</div>
-            <div class="card" id="table-player-0">🔲</div>
-            <div class="card" id="table-player-1">🔲</div>
-            <div class="card" id="table-player-2">🔲</div>
-            <div class="card" id="table-player-3">🔲</div>
-            <div class="card" id="table-player-4">🔲</div>
+            <div class="cell" id="table-opponent-0">🔲</div>
+            <div class="cell" id="table-opponent-1">🔲</div>
+            <div class="cell" id="table-opponent-2">🔲</div>
+            <div class="cell" id="table-opponent-3">🔲</div>
+            <div class="cell" id="table-opponent-4">🔲</div>
+            <div class="cell" id="table-player-0">🔲</div>
+            <div class="cell" id="table-player-1">🔲</div>
+            <div class="cell" id="table-player-2">🔲</div>
+            <div class="cell" id="table-player-3">🔲</div>
+            <div class="cell" id="table-player-4">🔲</div>
         </div>
 
         <!-- Алтарь -->
         <div class="altar">
-            <div class="card">🔲</div>
+            <div class="card" id="altar-card-place">🔲</div>
             <div class="buttons">
-                <button>🔙 <p>Вернуть</p></button>
-                <button>🔼 <p>Выставить</p></button>
-                <button>🔥 <p>Жертвовать</p></button>
-                <button>💸 <p>Продать</p></button>
+                <button id="btn-return">🔙 <p>Вернуть</p></button>
+                <button id="btn-place">🔼 <p>Выставить</p></button>
+                <button id="btn-sacrifice">🔥 <p>Жертвовать</p></button>
+                <button id="btn-sell">💸 <p>Продать</p></button>
             </div>
         </div>
 
         <!-- Рука игрока -->
         <div class="hand"></div>
 
+        <!-- Кнопка конца хода -->
+        <button class="end-turn">Закончить ход</button>
+
+        
         <!-- Магазин -->
+        <h1>Магазин</h1>
         <div class="shop">
-            <div class="card" id="shop-1">💎</div>
-            <div class="card" id="shop-2">🔥</div>
-            <div class="card" id="shop-3">⚡</div>
-            <div class="card" id="shop-4">🛡️</div>
-            <button class="resfresh-shop">🔄 Обновить (5💰)</button>
+            <div class="card" id="shop-0">💎</div>
+            <div class="card" id="shop-1">🔥</div>
+            <div class="card" id="shop-2">⚡</div>
+            <div class="card" id="shop-3">🛡️</div>
+            <button class="resfresh-shop-btn" id="resfresh-shop-btn">🔄 Обновить (5💰)</button>
         </div>
 
-        <!-- Кнопка конца хода -->
-        <button class="end-turn">Закончить</button>
+        <!-- Окно конца хода -->
+        <dialog class="game-over" id="game-over">
+            <h1>Вы проиграли</h1>
+            <button id="new-game-btn">Начать сначала</button>
+        </dialog>
     </div>
 </body>
 </html>

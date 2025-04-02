@@ -163,6 +163,7 @@ export default class Board {
                 }
                 if (opponentCell.card.health === 0) {
                     moneyReceived += opponentCell.card.price;
+                    opponentCell.card.restore();
                     opponentCell.pullOutCard();
                 }
             }
