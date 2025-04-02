@@ -28,3 +28,23 @@ export var BoardSide;
     /** Сторона противника */
     BoardSide["Opponent"] = "Opponent";
 })(BoardSide || (BoardSide = {}));
+/** Перечисление возможных очков */
+export var ScoreData;
+(function (ScoreData) {
+    /** Убийство карты противника */
+    ScoreData[ScoreData["KillEnemy"] = 900] = "KillEnemy";
+    /** Нанесение урона противнику */
+    ScoreData[ScoreData["DealDamage"] = 500] = "DealDamage";
+    /** Начало нового раунда */
+    ScoreData[ScoreData["StartNewTurn"] = 50] = "StartNewTurn";
+    /** Продажа карты */
+    ScoreData[ScoreData["SellCard"] = 60] = "SellCard";
+    /** Покупка карты */
+    ScoreData[ScoreData["BuyCard"] = 100] = "BuyCard";
+    /** Жертвование карты */
+    ScoreData[ScoreData["SacrificeCard"] = 100] = "SacrificeCard";
+    /** Обновление магазина */
+    ScoreData[ScoreData["ResfreshShop"] = 50] = "ResfreshShop";
+    /** Установка карты */
+    ScoreData[ScoreData["PlaceCard"] = 20] = "PlaceCard";
+})(ScoreData || (ScoreData = {}));

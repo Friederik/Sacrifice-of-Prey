@@ -52,6 +52,8 @@ export interface AfterFightInfo {
     playerCellDamagePosition: number[],
     /** Ячейки противника получившие урон */
     opponentCellDamagePosition: number[]
+    /** Погибло врагов */
+    enemiesDeath: number
 }
 
 /**

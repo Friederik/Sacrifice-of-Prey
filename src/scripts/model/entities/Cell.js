@@ -39,7 +39,7 @@ export default class Cell extends JSONConvertible {
     pullOutCard() {
         if (this._card === null)
             return null;
-        let temp = this._card.clone();
+        let temp = this._card;
         this._card = null;
         return temp;
     }

@@ -19,7 +19,7 @@ export default class Deck {
         this._cards = startDeck
         this._discard = []
         this._drawCount = 2
-        // this.shuffleDeck()
+        this.shuffleDeck()
     }
     
     get cards():  Card[] { return this._cards }

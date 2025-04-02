@@ -1,4 +1,4 @@
-import { BoardSide, GameDifficult } from "./core/Enums.js"
+import { BoardSide, GameDifficult, ScoreData } from "./core/Enums.js"
 import { AfterFightInfo } from "./core/Interfaces.js"
 import Board from "./elements/Board.js"
 import Deck from "./elements/Deck.js"
@@ -33,6 +33,7 @@ export default class GameModel {
     private _board: Board
 
     private _isFirstTurn: boolean 
+    private _isGameWon: boolean
 
     constructor() {
         this._difficult = GameDifficult.Spring
@@ -45,6 +46,7 @@ export default class GameModel {
         this._altar = new Cell()
         this._board = new Board()
         this._isFirstTurn = true
+        this._isGameWon = false
     }
 
     get difficult(): GameDifficult { return this._difficult }
@@ -56,12 +58,13 @@ export default class GameModel {
     get shop(): Shop { return this._shop }
     get altar(): Cell { return this._altar }
     get board(): Board { return this._board }
+    get isWin(): boolean { return this._isGameWon }
 
     /**
      * Увеличивает уровень
      */
-    increaseDifficult(): void {
-        this._difficult += 1
+    setDifficult(difficult: GameDifficult): void {
+        this._difficult = difficult
     }
 
     /**
@@ -88,7 +91,7 @@ export default class GameModel {
                 this._deck.drawCardsInTurn(this._isFirstTurn)
             ) 
         )
-        this._board.useTurnEffects()
+        this._board.useTurnEffects(this)
         this._board.releaseThreats()
         if (this._isFirstTurn) {
             this._board.randomPlaceThreats([
@@ -102,6 +105,26 @@ export default class GameModel {
             ])
         }
         this._isFirstTurn = false
+
+        this.addScore(ScoreData.StartNewTurn)
+
+        switch (true) {
+            case this.score >= 0 && this.score < 5000:
+                this.setDifficult(GameDifficult.Spring)
+                break
+            case this.score >= 5000 && this.score < 10000:
+                this.setDifficult(GameDifficult.Summer)
+                break
+            case this.score >= 10000 && this.score < 20000:
+                this.setDifficult(GameDifficult.Autumn)
+                break
+            case this.score >= 20000 && this.score < 25000:
+                this.setDifficult(GameDifficult.Winter)
+                break
+            case this.score > 25000:
+                this._isGameWon = true
+                break
+        }
     }
 
     /**
@@ -122,6 +145,9 @@ export default class GameModel {
         this._player.addMoney(fightInfo.moneyReceived)
         this._player.takeDamage(fightInfo.playerTakenDamage)
         
+        this.addScore(ScoreData.KillEnemy * fightInfo.enemiesDeath)
+        this.addScore(ScoreData.DealDamage * fightInfo.opponentTakenDamage)
+
         return fightInfo
     }
 
@@ -147,6 +173,8 @@ export default class GameModel {
             altarCard.effectSacrifice(...args)
             this._deck.addToDiscard(altarCard)
         }
+
+        this.addScore(ScoreData.SacrificeCard)
     }
     
     /**
@@ -156,6 +184,9 @@ export default class GameModel {
         let altarCard = this._altar.pullOutCard()
         if (altarCard) {
             this._player.addMoney(altarCard.price)
+
+            this.addScore(ScoreData.SellCard * altarCard.price)
+            
             altarCard = null
         }
     }
@@ -176,6 +207,8 @@ export default class GameModel {
             let altarCard = this._altar.pullOutCard()
             if (altarCard) this._board.placeCard(BoardSide.Player, cellId, altarCard)
         }
+
+        this.addScore(ScoreData.PlaceCard)
     }
 
 
@@ -192,6 +225,9 @@ export default class GameModel {
             let card = this._shop.buyCell(cardId)
             if (card) {
                 this._player.spendMoney(price)
+                
+                this.addScore(ScoreData.BuyCard)
+
                 this._hand.addToHand(card)
             }
         }
@@ -205,5 +241,7 @@ export default class GameModel {
         this._player.spendMoney(5)
         let newCards = this.gameData.generateShopCards(this._difficult)
         this._shop.refresh(newCards)
+
+        this.addScore(ScoreData.ResfreshShop)
     }
 }

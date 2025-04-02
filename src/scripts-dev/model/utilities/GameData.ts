@@ -2,6 +2,7 @@ import { BoardSide, GameDifficult } from "../core/Enums.js";
 import { CardData, DifficultData, Effect } from "../core/Interfaces.js";
 import Card from "../entities/Card.js";
 import Threat from "../entities/Threat.js";
+import GameModel from "../GameModel.js";
 
 // ToDo: Сделай загрузку асинхронной с файлов
 /**
@@ -52,7 +53,8 @@ export default class GameData {
     getCard(cardName: string): Card {
         let card = this._cards.get(cardName)
         if (!card) throw new Error("Такой карты нет")
-        return card.clone()
+        let newCard = card.clone()
+        return newCard
     }
 
     /**
@@ -75,16 +77,12 @@ export default class GameData {
             
             this.getCard("Dog"),
             this.getCard("Rabbit"),
-            this.getCard("Rabbit"),
-            this.getCard("Dear"),
-            this.getCard("Dog"),
             this.getCard("Bear"),
-            this.getCard("Rabbit"),
             this.getCard("Dog"),
-            this.getCard("Dog"),
-            this.getCard("Bear"),
             this.getCard("Rabbit"),
-            this.getCard("Dog")
+            this.getCard("Totem"),
+            this.getCard("Totem"),
+            this.getCard("Totem")
         ]
     }
 
@@ -133,10 +131,10 @@ export default class GameData {
      */
     generateShopCards(difficultNumber: GameDifficult) : Card[] {
         let generatedCards: Card[] = []
-        for(let i = 0; i < 2; i++) {
+        for(let i = 0; i < 1; i++) {
             generatedCards.push(this.generateCard(difficultNumber, BoardSide.Player))
         }
-        for(let i = 0; i < 2; i++) {
+        for(let i = 0; i < 3; i++) {
             generatedCards.push(this.generateCard(difficultNumber + 1, BoardSide.Player))
         }
         return generatedCards
@@ -152,21 +150,32 @@ export default class GameData {
 
         let someEffects: Effect[] = [
             () => { console.log("Just Nothing") },
-            (card: Card, count: number) => {
-                if (card) {
-                    card.takeDamage(count) 
-                    console.log(`Я АТАКУЮ: ${card.name}`)
+            (gameModel) => {
+                for (let i = 0; i < 5; i++) {
+                    let card = gameModel.board.sidePlayer[i].card
+                    if (card) {
+                        card.increaseAttack(2)
+                    }
                 }
             },
-            () => { console.log("НУ КА НУКА ТЫ КУДА??") },
-            (count: number) => { console.log(`ХИЛЛ ${count}`) }
+            (gameModel: GameModel) => {
+                for (let i = 0; i < 5; i++) {
+                    let card = gameModel.board.sidePlayer[i].card
+                    if (card) {
+                        card.increaseHealth(2)
+                    }
+                }
+            },
+            (gameModel: GameModel, cellId: number, side: BoardSide) => {
+                gameModel.board.removeCard(side ,cellId)
+            }
         ]
 
         let someEffectsNames: string[] = [
             "Пусто",
-            "Атака",
-            "Защита",
-            "Восстановление"
+            "Атака +2",
+            "Жизни +2",
+            "Трус"
         ]
 
         if (someEffects.length !== someEffectsNames.length) throw new Error("Ошибка загрузки эффектов")
@@ -192,81 +201,91 @@ export default class GameData {
                 name: "Hunter",
                 coverPath: "assets/images/Hunter.webp",
                 attack: 4,
-                health: 2,
+                health: 3,
                 price: 2,
                 description: "Он почти крутой",
                 effectSacrificeName: "Пусто",
-                effectTurnName: "Атака"
+                effectTurnName: "Пусто"
             },
             {
                 name: "Shaman",
                 coverPath: "assets/images/Shaman.webp",
-                attack: 5,
-                health: 1,
+                attack: 7,
+                health: 6,
                 price: 1,
                 description: "Крейзи чел",
-                effectSacrificeName: "Восстановление",
+                effectSacrificeName: "Пусто",
                 effectTurnName: "Пусто"
             },
             {
                 name: "Cultist",
                 coverPath: "assets/images/Cultist.webp",
-                attack: 2,
-                health: 7,
-                price: 15,
+                attack: 3,
+                health: 12,
+                price: 5,
                 description: "ОН ТРУС",
                 effectSacrificeName: "Пусто",
-                effectTurnName: "Защита"
+                effectTurnName: "Трус"
+            },
+            {
+                name: "Fisher",
+                coverPath: "assets/images/Fisher.webp",
+                attack: 10,
+                health: 12,
+                price: 8,
+                description: "Выудил",
+                effectSacrificeName: "Пусто",
+                effectTurnName: "Пусто"
             },
             {
                 name: "Dog",
                 coverPath: "assets/images/Dog.webp",
                 attack: 2,
-                health: 3,
-                price: 5,
+                health: 2,
+                price: 2,
                 description: "Он че то там крутой в общем",
-                effectSacrificeName: "Атака",
-                effectTurnName: "Атака"
+                effectSacrificeName: "Атака +2",
+                effectTurnName: "Пусто"
             },
             {
                 name: "Rabbit",
                 coverPath: "assets/images/Rabbit.webp",
                 attack: 1,
-                health: 1,
-                price: 3,
+                health: 2,
+                price: 1,
                 description: "Микрик",
-                effectSacrificeName: "Пусто",
+                effectSacrificeName: "Жизни +2",
                 effectTurnName: "Пусто"
             },
             {
                 name: "Dear",
                 coverPath: "assets/images/Dear.webp",
-                attack: 4,
-                health: 6,
-                price: 7,
+                attack: 3,
+                health: 4,
+                price: 5,
                 description: "Слов нет - он крутой",
-                effectSacrificeName: "Защита",
+                effectSacrificeName: "Пусто",
                 effectTurnName: "Пусто"
             },
             {
                 name: "Bear",
                 coverPath: "assets/images/Bear.webp",
-                attack: 8,
-                health: 8,
-                price: 10,
+                attack: 5,
+                health: 5,
+                price: 7,
                 description: "Не спит даже",
-                effectSacrificeName: "Защита",
-                effectTurnName: "Защита"
+                effectSacrificeName: "Пусто",
+                effectTurnName: "Жизни +2"
             },
             {
                 name: "Totem",
                 coverPath: "assets/images/Totem.webp",
                 attack: 0,
-                health: 1,
-                price: 2,
+                health: 6,
+                price: 3,
                 description: "Стоит че то",
-                effectSacrificeName: "Восстановление",
-                effectTurnName: "Атака"
+                effectSacrificeName: "Пусто",
+                effectTurnName: "Пусто"
             }
         ]
 
@@ -316,13 +335,57 @@ export default class GameData {
                     "Rabbit",
                     "Dog",
                     "Totem",
-                    "Bear",
                     "Dear"
                 ],
                 enemies: [  
                     "Hunter",
                     "Shaman",
                     "Cultist"
+                ]
+            },
+            {
+                player: [
+                    "Rabbit",
+                    "Dog",
+                    "Totem",
+                    "Bear",
+                    "Dear"
+                ],
+                enemies: [  
+                    "Hunter",
+                    "Shaman",
+                    "Cultist",
+                    "Fisher"
+                ]
+            },
+            {
+                player: [
+                    "Rabbit",
+                    "Dog",
+                    "Totem",
+                    "Bear",
+                    "Dear"
+                ],
+                enemies: [  
+                    "Hunter",
+                    "Shaman",
+                    "Cultist",
+                    "Fisher"
+                ]
+            },
+            {
+                player: [
+                    "Rabbit",
+                    "Dog",
+                    "Totem",
+                    "Bear",
+                    "Dear"
+                ],
+                enemies: [  
+                    "Hunter",
+                    "Shaman",
+                    "Cultist",
+                    "Fisher"
                 ]
             }
         ]

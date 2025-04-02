@@ -70,7 +70,7 @@ export default class Board {
             if (this._sideOpponent[i].checkThreat()) {
                 let curThreat = this._sideOpponent[i].threat;
                 if (curThreat)
-                    this._sideOpponent[i].insertCard(curThreat.card);
+                    this._sideOpponent[i].insertCard(curThreat.card.clone());
             }
         }
     }
@@ -119,22 +119,63 @@ export default class Board {
         return null;
     }
     /**
+     * Находит все номера свободных ячейек на выбранной стороне
+     * @param side Сторона поиска
+     * @returns `number[]`, если есть пустые ячейки, иначе `null`
+     */
+    findEmptyCellIds(side) {
+        let emptyCellIds = [];
+        for (let i = 0; i < 5; i++) {
+            switch (side) {
+                case "Player":
+                    if (!(this._sidePlayer[i].checkCard() || this._sidePlayer[i].checkThreat())) {
+                        emptyCellIds.push(i);
+                    }
+                    break;
+                case "Opponent":
+                    if (!(this._sideOpponent[i].checkCard() || this._sideOpponent[i].checkThreat())) {
+                        emptyCellIds.push(i);
+                    }
+                    break;
+            }
+        }
+        if (emptyCellIds.length !== 0)
+            return emptyCellIds;
+        return null;
+    }
+    /**
      * Использует эффекты начала хода каждой карты
      */
-    useTurnEffects() {
+    useTurnEffects(gameModel) {
         var _a, _b;
         for (let i = 0; i < 5; i++) {
             let effect = (_a = this._sideOpponent[i].card) === null || _a === void 0 ? void 0 : _a.effectTurn;
             if (effect !== undefined) {
-                effect();
+                effect(gameModel, i, BoardSide.Opponent);
             }
         }
         for (let i = 0; i < 5; i++) {
             let effect = (_b = this._sidePlayer[i].card) === null || _b === void 0 ? void 0 : _b.effectTurn;
             if (effect !== undefined) {
-                effect();
+                effect(gameModel, i, BoardSide.Player);
             }
         }
+    }
+    /**
+     * Проверяет стол на наличие мертвых карт
+     * @returns Двумерный массив, где первая мера: `0` - Противник, `1` - Игрок.
+     * Вторая мера: `true` - если на позиции мертвая карта, `false` иначе
+     */
+    checkDeaths() {
+        var _a, _b;
+        let deaths = [[false, false, false, false, false], [false, false, false, false, false]];
+        for (let i = 0; i < 5; i++) {
+            if (((_a = this._sideOpponent[i].card) === null || _a === void 0 ? void 0 : _a.health) === 0)
+                deaths[0][i] = true;
+            if (((_b = this._sidePlayer[i].card) === null || _b === void 0 ? void 0 : _b.health) === 0)
+                deaths[1][i] = true;
+        }
+        return deaths;
     }
     /**
      * Производит бой.
@@ -150,6 +191,7 @@ export default class Board {
         let opponentTakenDamage = 0;
         let playerCellDamagePosition = [0, 0, 0, 0, 0];
         let opponentCellDamagePosition = [0, 0, 0, 0, 0];
+        let enemiesDeath = 0;
         for (let i = 0; i < 5; i++) {
             let playerCell = this._sidePlayer[i];
             let opponentCell = this._sideOpponent[i];
@@ -159,12 +201,15 @@ export default class Board {
                 playerCellDamagePosition[i] += opponentCell.card.attack;
                 opponentCellDamagePosition[i] += playerCell.card.attack;
                 if (playerCell.card.health === 0) {
-                    discard.push(playerCell.pullOutCard());
+                    let card = playerCell.pullOutCard();
+                    // card?.restore()
+                    discard.push(card);
                 }
                 if (opponentCell.card.health === 0) {
                     moneyReceived += opponentCell.card.price;
                     opponentCell.card.restore();
                     opponentCell.pullOutCard();
+                    enemiesDeath += 1;
                 }
             }
             else if (playerCell.checkCard() && playerCell.card !== null) {
@@ -184,7 +229,8 @@ export default class Board {
             playerTakenDamage: playerTakenDamage,
             opponentTakenDamage: opponentTakenDamage,
             playerCellDamagePosition: playerCellDamagePosition,
-            opponentCellDamagePosition: opponentCellDamagePosition
+            opponentCellDamagePosition: opponentCellDamagePosition,
+            enemiesDeath: enemiesDeath
         };
         return info;
     }

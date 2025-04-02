@@ -11,7 +11,7 @@ export default class Deck {
         this._cards = startDeck;
         this._discard = [];
         this._drawCount = 2;
-        // this.shuffleDeck()
+        this.shuffleDeck();
     }
     get cards() { return this._cards; }
     get discard() { return this._discard; }

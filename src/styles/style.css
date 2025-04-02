@@ -12,20 +12,30 @@ body {
     gap: 15px;
     margin-top: 20px;
 }
-.player {
+.title {
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 2em;
+    color: red;
+    text-shadow: 1px 1px 2px #FFF;
+}
+.info {
+    display: flex;
+}
+.player-stats {
     display: flex;
     justify-content: space-between;
-    width: 200px;
-    height: 40px;
-    padding: 10px;
+}
+.player { 
+    /* width: 200px; */
+    /* height: 40px; */
     background-color: #444;
     border-radius: 10px;
 }
 .deck {
-    display: flex;
     gap: 10px;
 }
 .box {
+    margin: 5px;
     padding: 10px;
     background-color: #555;
     border-radius: 5px;
@@ -58,6 +68,9 @@ body {
     border-radius: 5px;
     font-size: 0.9em;
 }
+.card-active {
+    cursor: pointer;
+}
 .cell {
     background-color: #555;
 }
@@ -78,6 +91,9 @@ body {
 }
 .card-price {
     color: gold;
+}
+.card-effect {
+    font-size: 0.75em;
 }
 .cover {
     width: 45px;

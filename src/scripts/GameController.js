@@ -1,14 +1,36 @@
 import { BoardSide } from "./model/core/Enums.js";
 import GameModel from "./model/GameModel.js";
-let gameModel = new GameModel();
 function render() {
     /** Характеристики игрока */
     let player = document.querySelector('.player');
     if (player) {
         player.innerHTML = `
-            <div>❤️ ${gameModel.player.health}</div>
-            <div>💰 ${gameModel.player.money}</div>
+            <div class="box">❤️ ${gameModel.player.health}</div>
+            <div class="box">💰 ${gameModel.player.money}</div>
         `;
+    }
+    /** Счет */
+    let score = document.querySelector("#score");
+    if (score) {
+        score.innerHTML = `Счет: ${gameModel.score}`;
+    }
+    /** Сложность */
+    let difficult = document.querySelector("#difficult");
+    if (difficult) {
+        switch (gameModel.difficult) {
+            case 1:
+                difficult.innerHTML = `Сложность: Весна`;
+                break;
+            case 2:
+                difficult.innerHTML = `Сложность: Лето`;
+                break;
+            case 3:
+                difficult.innerHTML = `Сложность: Осень`;
+                break;
+            case 4:
+                difficult.innerHTML = `Сложность: Зима`;
+                break;
+        }
     }
     /** Колода */
     let deck = document.querySelector(".deck");
@@ -25,6 +47,7 @@ function render() {
         hand.innerHTML = '';
         for (let i = 0; i < handData.cards.length; i++) {
             let card = createCard(handData.getCard(i), "hand-" + i);
+            card.className = "card card-active";
             bindHand(card);
             hand.appendChild(card);
         }
@@ -84,6 +107,7 @@ function render() {
                 if (cell.isUnLocked) {
                     if (cell.card) {
                         let card = createCard(cell.card, `shop-` + i);
+                        card.className = "card card-active";
                         bindShop(card);
                         shopCell.innerHTML = '';
                         shopCell.appendChild(card);
@@ -98,22 +122,19 @@ function render() {
             }
         }
     }
+    checkAltarBtn();
     /** Проигрыш */
-    if (!gameModel.player.isAlive) {
-        gameOver();
-    }
+    if (!gameModel.player.isAlive)
+        gameOver(false);
+    /** Выигрыш */
+    if (gameModel.isWin)
+        gameOver(true);
 }
 function bindHand(card) {
     if (card) {
         card.addEventListener("click", () => {
-            var _a, _b;
             let id = Number(card.id.slice(-1));
             gameModel.selectCard(id);
-            let sacrificeBtn = document.querySelector("#btn-sacrifice");
-            console.log((_a = gameModel.altar.card) === null || _a === void 0 ? void 0 : _a.effectSacrificeName);
-            ((_b = gameModel.altar.card) === null || _b === void 0 ? void 0 : _b.effectSacrificeName) === "Пусто"
-                ? sacrificeBtn.disabled = true
-                : sacrificeBtn.disabled = false;
             render();
         });
     }
@@ -137,16 +158,80 @@ function createCard(cardInfo, cardId) {
             <p class="card-attack stats">${cardInfo.attack}</p>
             <p class="card-health stats">${cardInfo.health}</p>
         </div>
-        <p class="card-price stats">${cardInfo.price}</p>
+            <p class="card-price stats">${cardInfo.price}</p>
+            <p class="card-effect stats">${cardInfo.effectSacrificeName}</p>
+        
     `;
     return card;
 }
-function gameOver() {
+function gameOver(isWin) {
     let gameOverForm = document.getElementById("game-over");
-    if (gameOverForm) {
+    let score = document.querySelector("#score-end");
+    let title = document.querySelector("#game-over-title");
+    if (gameOverForm && score && title) {
+        if (isWin)
+            title.innerHTML = "🗣🗣🗣!WIN WIN WIN!🗣🗣🗣";
+        else
+            title.innerHTML = "Вы проиграли";
+        score.innerHTML = `Счет: ${gameModel.score}`;
         gameOverForm.showModal();
     }
 }
+/** Кнопка жертвования */
+let sacrificeBtn = document.querySelector("#btn-sacrifice");
+sacrificeBtn.addEventListener("click", () => {
+    gameModel.sacrificeAltarCard(gameModel);
+    render();
+});
+/** Кнопка продажи */
+let sellBtn = document.querySelector("#btn-sell");
+sellBtn.addEventListener("click", () => {
+    console.log(2);
+    gameModel.sellAltarCard();
+    render();
+});
+/** Кнопка установки */
+let placeBtn = document.querySelector("#btn-place");
+placeBtn.addEventListener("click", () => {
+    let emptyCells = gameModel.board.findEmptyCellIds(BoardSide.Player);
+    if (emptyCells) {
+        for (let i = 0; i < emptyCells.length; i++) {
+            let cell = document.querySelector(`#table-player-${emptyCells[i]}`);
+            if (cell) {
+                cell.innerHTML = `🔻`;
+                cell.addEventListener("click", () => {
+                    gameModel.placeAltarCard(emptyCells[i]);
+                    render();
+                });
+            }
+        }
+    }
+});
+function checkAltarBtn() {
+    var _a;
+    /** Кнопка жертвования */
+    !gameModel.altar.checkCard() || ((_a = gameModel.altar.card) === null || _a === void 0 ? void 0 : _a.effectSacrificeName) === "Пусто"
+        ? sacrificeBtn.disabled = true
+        : sacrificeBtn.disabled = false;
+    /** Кнопка продажи */
+    !gameModel.altar.checkCard()
+        ? sellBtn.disabled = true
+        : sellBtn.disabled = false;
+    /** Кнопка возврата карты */
+    // let returnBtn = document.querySelector("#btn-return") as HTMLButtonElement
+    // !gameModel.altar.checkCard()
+    //     ? returnBtn.disabled = true
+    //     : returnBtn.disabled = false
+    // returnBtn.addEventListener("click", () => {
+    //     gameModel.returnAltarCard()
+    //     render()
+    // })
+    /** Кнопка установки */
+    !gameModel.altar.checkCard()
+        ? placeBtn.disabled = true
+        : placeBtn.disabled = false;
+}
+// function 
 let startNewGameBtn = document.querySelector('#new-game-btn');
 if (startNewGameBtn) {
     startNewGameBtn.addEventListener("click", () => {
@@ -174,15 +259,12 @@ if (endTurnBtn) {
         render();
     });
 }
-let returnBtn = document.querySelector("#btn-return");
-if (returnBtn) {
-    returnBtn.addEventListener("click", () => {
-        gameModel.returnAltarCard();
-        render();
-    });
-}
+let gameModel = new GameModel();
 gameModel.startTurn();
-gameModel.board.placeCard(BoardSide.Opponent, 2, gameModel.gameData.getCard("Cultist"));
-gameModel.board.placeCard(BoardSide.Player, 2, gameModel.gameData.getCard("Cultist"));
-gameModel.board.placeCard(BoardSide.Player, 1, gameModel.gameData.getCard("Cultist"));
+// gameModel.board.placeCard(BoardSide.Player, 2, gameModel.gameData.getCard("Bear"))
+// gameModel.board.placeCard(BoardSide.Player, 0, gameModel.gameData.getCard("Bear"))
+// gameModel.board.sidePlayer[2].card?.increaseHealth(2)
+// gameModel.board.placeCard(BoardSide.Opponent, 2, gameModel.gameData.getCard("Cultist"))
+// gameModel.board.placeCard(BoardSide.Player, 2, gameModel.gameData.getCard("Cultist"))
+// gameModel.board.placeCard(BoardSide.Player, 1, gameModel.gameData.getCard("Cultist"))
 render();

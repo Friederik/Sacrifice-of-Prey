@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="normalize.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="src/styles/normalize.css">
+    <link rel="stylesheet" href="src/styles/reset.css">
+    <link rel="stylesheet" href="src/styles/style.css">
     <link rel="shortcut icon" href="assets/images/logo.webp" type="image/x-icon">
     <script type="module" src="src/scripts/GameController.js" defer></script>
     <!-- <script type="module" src="src/scripts/test.js" defer></script> -->
@@ -27,20 +28,29 @@
             <img src="assets\images\Cultist.webp" alt="Shaman" width="200px">
         </div>
     </section> -->
-
     <div class="container">
-        <!-- Игрок -->
-        <div class="player">
-            <div>❤️ 20</div>
-            <div>💰 10</div>
-        </div>
 
-        <!-- Колода и сброс -->
-        <div class="deck">
-            <div class="box">📚 Колода: 10</div>
-            <div class="box">♻️ Сброс: 5</div>
+        <h1 class="title">Sacrifice of Pray</h1>
+        <div class="info">
+            <div class="player-stats">
+                    <!-- Игрок -->
+                <div class="player">
+                    <div>❤️ 20</div>
+                    <div>💰 10</div>
+                </div>
+                <!-- Колода и сброс -->
+                <div class="deck">
+                    <div class="box">📚 Колода: 10</div>
+                    <div class="box">♻️ Сброс: 5</div>
+                </div>
+                <!-- Счет игрока -->
+                <div class="score">
+                    <div class="box" id="score">Счет: 0</div>
+                    <div class="box" id="difficult">Сложность: Метель</div>
+                </div>
+            </div>
         </div>
-
+        
         <!-- Игровое поле 5x2 -->
         <div class="board">
             <div class="cell" id="table-opponent-0">🔲</div>
@@ -59,7 +69,7 @@
         <div class="altar">
             <div class="card" id="altar-card-place">🔲</div>
             <div class="buttons">
-                <button id="btn-return">🔙 <p>Вернуть</p></button>
+                <!-- <button id="btn-return">🔙 <p>Вернуть</p></button> -->
                 <button id="btn-place">🔼 <p>Выставить</p></button>
                 <button id="btn-sacrifice">🔥 <p>Жертвовать</p></button>
                 <button id="btn-sell">💸 <p>Продать</p></button>
@@ -71,7 +81,6 @@
 
         <!-- Кнопка конца хода -->
         <button class="end-turn">Закончить ход</button>
-
         
         <!-- Магазин -->
         <h1>Магазин</h1>
@@ -85,7 +94,15 @@
 
         <!-- Окно конца хода -->
         <dialog class="game-over" id="game-over">
-            <h1>Вы проиграли</h1>
+            <h1 id="game-over-title">Вы проиграли</h1>
+            <div class="box" id="score-end">Счет: 0</div>
+            <button id="new-game-btn">Начать сначала</button>
+        </dialog>
+
+        <!-- Окно Выигрыша -->
+        <dialog class="game-over" id="game-over">
+            <h1>🗣🗣🗣!WIN WIN WIN!🗣🗣🗣</h1>
+            <div class="box" id="score-end">Счет: 0</div>
             <button id="new-game-btn">Начать сначала</button>
         </dialog>
     </div>
