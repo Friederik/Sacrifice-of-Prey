@@ -36,7 +36,7 @@ export default class Cell extends JSONConvertible {
      */
     insertCard(card: Card | null): void {
         if (card === null) return
-        this._card = card.clone()
+        this._card = card
     }
 
     /**

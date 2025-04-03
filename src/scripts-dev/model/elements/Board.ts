@@ -28,6 +28,16 @@ export default class Board {
     get sidePlayer(): BoardCell[] { return this._sidePlayer }
     get sideOpponent(): BoardCell[] { return this._sideOpponent }
 
+    getCard(cellId: number, side: BoardSide): Card | null {
+        switch(side) {
+            case "Player":
+                return this._sidePlayer[cellId].card
+            case "Opponent":
+                return this._sideOpponent[cellId].card
+        }
+        return null
+    }
+
     /**
      * Размещение карты на пустую ячейку по выбранной стороне.
      * При попытке разместить на занятой ячейке, ничего не произойдет
@@ -214,7 +224,7 @@ export default class Board {
                 opponentCellDamagePosition[i] += playerCell.card.attack
                 if (playerCell.card.health === 0) {
                     let card = playerCell.pullOutCard()
-                    // card?.restore()
+                    card?.restore()
                     discard.push(card)
                 }
                 if (opponentCell.card.health === 0) {

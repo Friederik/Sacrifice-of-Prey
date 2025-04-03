@@ -27,7 +27,7 @@ body {
 }
 .player { 
     /* width: 200px; */
-    /* height: 40px; */
+    height: 90px;
     background-color: #444;
     border-radius: 10px;
 }

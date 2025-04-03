@@ -32,11 +32,11 @@ export var BoardSide;
 export var ScoreData;
 (function (ScoreData) {
     /** Убийство карты противника */
-    ScoreData[ScoreData["KillEnemy"] = 900] = "KillEnemy";
+    ScoreData[ScoreData["KillEnemy"] = 200] = "KillEnemy";
     /** Нанесение урона противнику */
-    ScoreData[ScoreData["DealDamage"] = 500] = "DealDamage";
+    ScoreData[ScoreData["DealDamage"] = 70] = "DealDamage";
     /** Начало нового раунда */
-    ScoreData[ScoreData["StartNewTurn"] = 50] = "StartNewTurn";
+    ScoreData[ScoreData["StartNewTurn"] = 30] = "StartNewTurn";
     /** Продажа карты */
     ScoreData[ScoreData["SellCard"] = 60] = "SellCard";
     /** Покупка карты */

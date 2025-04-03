@@ -7,8 +7,9 @@ export default class Card extends JSONConvertible {
      * Создает экземпляр карты
      * @param cardData Данные карты
      */
-    constructor(cardData) {
+    constructor(cardDataProto) {
         super();
+        let cardData = Object.assign({}, cardDataProto); //JSON.parse(JSON.stringify(cardDataProto))
         this._name = cardData.name;
         this._coverPath = cardData.coverPath;
         this._attackMax = cardData.attack;

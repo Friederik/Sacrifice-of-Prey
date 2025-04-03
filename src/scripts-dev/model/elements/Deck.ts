@@ -114,7 +114,7 @@ export default class Deck {
      * Увеличивает количество добираемых карт за ход на 1
      */
     increaseDrawCount(): void {
-        if (this._drawCount >= 10) return
+        if (this._drawCount >= 5) return
         this._drawCount++
     }
 }

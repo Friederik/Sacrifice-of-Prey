@@ -30,7 +30,7 @@ export default class Cell extends JSONConvertible {
     insertCard(card) {
         if (card === null)
             return;
-        this._card = card.clone();
+        this._card = card;
     }
     /**
      * Вытаскивает карту из ячейки

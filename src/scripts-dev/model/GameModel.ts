@@ -34,6 +34,7 @@ export default class GameModel {
 
     private _isFirstTurn: boolean 
     private _isGameWon: boolean
+    private _isNewDifficult: boolean
 
     constructor() {
         this._difficult = GameDifficult.Spring
@@ -47,6 +48,7 @@ export default class GameModel {
         this._board = new Board()
         this._isFirstTurn = true
         this._isGameWon = false
+        this._isNewDifficult = false
     }
 
     get difficult(): GameDifficult { return this._difficult }
@@ -86,6 +88,30 @@ export default class GameModel {
      * добавляет новые угрозы
      */
     startTurn(): void {
+        this.addScore(ScoreData.StartNewTurn)
+
+        switch (true) {
+            case this.score >= 0 && this.score < 5000:
+                this.setDifficult(GameDifficult.Spring)
+                this._isNewDifficult = true
+                break
+            case this.score >= 5000 && this.score < 10000:
+                this.setDifficult(GameDifficult.Summer)
+                this._isNewDifficult = true
+                break
+            case this.score >= 10000 && this.score < 20000:
+                this.setDifficult(GameDifficult.Autumn)
+                this._isNewDifficult = true
+                break
+            case this.score >= 20000 && this.score < 50000:
+                this.setDifficult(GameDifficult.Winter)
+                this._isNewDifficult = true
+                break
+            case this.score > 50000:
+                this._isGameWon = true
+                break
+        }
+
         this._deck.addToDiscard(
             this._hand.addToHand(
                 this._deck.drawCardsInTurn(this._isFirstTurn)
@@ -103,28 +129,16 @@ export default class GameModel {
             this._board.randomPlaceThreats([
                 this._gameData.generateThreat(this._difficult)
             ])
+            if (this._isNewDifficult) {
+                this._board.randomPlaceThreats([
+                    this._gameData.generateThreat(this._difficult)
+                ])
+                this._isNewDifficult = false
+            }
         }
         this._isFirstTurn = false
 
-        this.addScore(ScoreData.StartNewTurn)
-
-        switch (true) {
-            case this.score >= 0 && this.score < 5000:
-                this.setDifficult(GameDifficult.Spring)
-                break
-            case this.score >= 5000 && this.score < 10000:
-                this.setDifficult(GameDifficult.Summer)
-                break
-            case this.score >= 10000 && this.score < 20000:
-                this.setDifficult(GameDifficult.Autumn)
-                break
-            case this.score >= 20000 && this.score < 25000:
-                this.setDifficult(GameDifficult.Winter)
-                break
-            case this.score > 25000:
-                this._isGameWon = true
-                break
-        }
+        
     }
 
     /**
@@ -205,10 +219,12 @@ export default class GameModel {
     placeAltarCard(cellId: number): void {
         if (!this._board.sidePlayer[cellId].checkCard()) {
             let altarCard = this._altar.pullOutCard()
-            if (altarCard) this._board.placeCard(BoardSide.Player, cellId, altarCard)
+            if (altarCard) {
+                this._board.placeCard(BoardSide.Player, cellId, altarCard)
+                
+                this.addScore(ScoreData.PlaceCard)
+            }
         }
-
-        this.addScore(ScoreData.PlaceCard)
     }
 
 

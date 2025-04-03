@@ -31,11 +31,11 @@ export enum BoardSide {
 /** Перечисление возможных очков */
 export enum ScoreData {
     /** Убийство карты противника */
-    KillEnemy = 900,
+    KillEnemy = 200,
     /** Нанесение урона противнику */
-    DealDamage = 500,
+    DealDamage = 70,
     /** Начало нового раунда */
-    StartNewTurn = 50,
+    StartNewTurn = 30,
     /** Продажа карты */
     SellCard = 60,
     /** Покупка карты */
