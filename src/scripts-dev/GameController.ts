@@ -7,6 +7,7 @@ let gameModel = new GameModel()
 
 function main() {
     gameModel.startTurn()
+    
     render()
 }
 
