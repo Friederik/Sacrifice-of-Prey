@@ -438,23 +438,19 @@ export default class GameData {
             {
                 player: [
                     "Dog",
-                    "Raven",
-                    "Dear",
-                    "Goat"
-                ],
-                enemies: [
-                    "Shaman",
-                    "Fisher"
-                ]
-            },
-            {
-                player: [
-                    "Dog",
                     "Goat",
                     "Bear"
                 ],
                 enemies: [
-                    "Hish_Shaman"
+                    "High_Shaman"
+                ]
+            },
+            {
+                player: [
+                    "Bear"
+                ],
+                enemies: [
+                    "High_Shaman"
                 ]
             }
         ];
