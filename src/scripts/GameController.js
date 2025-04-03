@@ -3,7 +3,6 @@ import GameModel from "./model/GameModel.js";
 let gameModel = new GameModel();
 function main() {
     gameModel.startTurn();
-    gameModel.hand.addToHand(gameModel.gameData.getCard("Bear"));
     render();
 }
 function render() {

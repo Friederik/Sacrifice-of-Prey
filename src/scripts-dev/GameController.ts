@@ -7,7 +7,6 @@ let gameModel = new GameModel()
 
 function main() {
     gameModel.startTurn()
-    gameModel.hand.addToHand(gameModel.gameData.getCard("Bear"))
     render()
 }
 
