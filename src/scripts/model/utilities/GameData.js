@@ -273,8 +273,8 @@ export default class GameData {
             {
                 name: "Cultist",
                 coverPath: "assets/images/Cultist.webp",
-                attack: 12,
-                health: 12,
+                attack: 20,
+                health: 20,
                 price: 12,
                 description: "ОН 🏃",
                 effectSacrificeName: "",
@@ -283,7 +283,7 @@ export default class GameData {
             {
                 name: "Fisher",
                 coverPath: "assets/images/Fisher.webp",
-                attack: 20,
+                attack: 30,
                 health: 30,
                 price: 8,
                 description: "Выудил",
