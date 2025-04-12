@@ -295,7 +295,7 @@ export default class GameData {
             {
                 name: "Cultist",
                 coverPath: "assets/images/Cultist.webp",
-                attack: 3,
+                attack: 12,
                 health: 12,
                 price: 12,
                 description: "ОН 🏃",
@@ -305,8 +305,8 @@ export default class GameData {
             {
                 name: "Fisher",
                 coverPath: "assets/images/Fisher.webp",
-                attack: 10,
-                health: 12,
+                attack: 20,
+                health: 30,
                 price: 8,
                 description: "Выудил",
                 effectSacrificeName: "",
@@ -315,9 +315,9 @@ export default class GameData {
             {
                 name: "High_Shaman",
                 coverPath: "assets/images/High_Shaman.webp",
-                attack: 12,
-                health: 12,
-                price: 15,
+                attack: 40,
+                health: 40,
+                price: 10,
                 description: "Чем раньше, тем лучше",
                 effectSacrificeName: "",
                 effectTurnName: "💀"
